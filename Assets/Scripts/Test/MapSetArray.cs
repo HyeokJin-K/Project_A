@@ -15,8 +15,7 @@ public class MapSetArray : MonoBehaviour
     private void Start()
     {
         tileHalfSize = Mathf.Abs(mapObjectArray[4].GetComponent<SpriteRenderer>().bounds.min.x);
-        centerPos = mapObjectArray[4].transform.position;
-        print(tileHalfSize);
+        centerPos = mapObjectArray[4].transform.position;        
     }
     void Update()
     {

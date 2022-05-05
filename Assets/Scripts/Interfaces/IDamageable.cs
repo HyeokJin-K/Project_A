@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IWeapon
-{        
-    public void Attack();
+public interface IDamageable
+{
+    public void TakeDamage(float damageValue);
+
 }

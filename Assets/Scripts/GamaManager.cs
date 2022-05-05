@@ -14,7 +14,8 @@ public class GamaManager : MonoBehaviour
         InGame
     }
 
-    SceneState sceneState = SceneState.MainMenu;
+    [ReadOnly]
+    public SceneState sceneState = SceneState.MainMenu;
     
     public float inGameTime;
 
