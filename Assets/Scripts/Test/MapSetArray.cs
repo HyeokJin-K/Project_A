@@ -14,7 +14,7 @@ public class MapSetArray : MonoBehaviour
 
     private void Start()
     {
-        tileHalfSize = Mathf.Abs(mapObjectArray[4].GetComponent<SpriteRenderer>().bounds.min.x);
+        tileHalfSize = Mathf.Abs(mapObjectArray[4].transform.position.x - mapObjectArray[5].transform.position.x) * 0.5f;
         centerPos = mapObjectArray[4].transform.position;        
     }
     void Update()
@@ -22,7 +22,7 @@ public class MapSetArray : MonoBehaviour
        MoveSetTile();
     }
 
-    public void MoveSetTile()
+    public void MoveSetTile()   //  ¸ÊÀÇ Áß¾Ó¿¡¼­ ¹þ¾î³µÀ» ¶§ ¸Ê Àç¹èÄ¡ (¹«ÇÑ¸Ê)
     {
         //                              mapObjectArray,  CopyMapArray
         //  [0][1][2]    [2][0][1]      ±âÁ¸ 2,5,8Àº 0,3,6ÀÚ¸®·Î ¿Å±ä´Ù

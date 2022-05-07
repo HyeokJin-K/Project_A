@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerGlobalCycleTimer))]
 public class Player : MonoBehaviour, IDamageable
 {
-    public GameObject bullet;
     public GameObject playerAttackDirObject;
     public GameObject playerMoveDirObject;
 
@@ -58,17 +57,6 @@ public class Player : MonoBehaviour, IDamageable
         playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            GameObject go = Instantiate(bullet);
-            go.transform.position = transform.position;
-            go.transform.up = playerAttackDirObject.transform.up;
-        }
-
-    }
-
     private void FixedUpdate()
     {
         Move();
@@ -82,20 +70,20 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Move()
     {
-        //PC Àü¿ë
         //float moveX = Input.GetAxisRaw("Horizontal");
         //float moveY = Input.GetAxisRaw("Vertical");
 
         //playerRigidbody.velocity = new Vector2(moveX, moveY).normalized * moveSpeed;
 
         playerRigidbody.velocity = (playerMoveDirObject.transform.position - transform.position) * moveSpeed;
+
     }
 
     public void EnableWeaponCol()
     {
         equipWeaponCol.enabled = true;
     }
-    #endregion
+#endregion
 
     public void TakeDamage(float damageValue)
     {

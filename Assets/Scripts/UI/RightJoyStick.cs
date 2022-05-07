@@ -8,21 +8,10 @@ public class RightJoyStick : JoyStick
 {
     public GameObject playerAttackDirObject;
 
-    void ResetPosDirObjectPos()
-    {
-        playerAttackDirObject.transform.localPosition = Vector2.zero;
-        playerAttackDirObject.transform.up = Vector2.zero;
-    }
-
     void MoveDirObjectPos()
     {
         playerAttackDirObject.transform.localPosition = lever.localPosition.normalized * 0.5f;
         playerAttackDirObject.transform.up = (lever.position - transform.position).normalized;
-    }
-
-    void OnOffWeaponEnableCheck()
-    {        
-        //playerAttackDirObject.transform.GetComponentInChildren<IWeapon>().OnOffWeaponAttackReady();        
     }
 
     #region 조이스틱 콜백
@@ -30,8 +19,7 @@ public class RightJoyStick : JoyStick
     {
         base.BeginDragMethod();
         MoveDirObjectPos();
-        playerAttackDirObject.SetActive(true);
-        //OnOffWeaponEnableCheck();
+        playerAttackDirObject.SetActive(true);        
     }
 
     protected override void DragMethod()
@@ -43,9 +31,7 @@ public class RightJoyStick : JoyStick
     protected override void EndDragMethod()
     {
         base.EndDragMethod();
-        ResetPosDirObjectPos();
         playerAttackDirObject.SetActive(false);
-        //OnOffWeaponEnableCheck();
     }
     #endregion
 }

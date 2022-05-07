@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class MonsterSpawner : MonsterObjectPool
+public class MonsterSpawner : ObjectPool
 {
     public GameObject monsterPrefab;
 
@@ -15,29 +15,21 @@ public class MonsterSpawner : MonsterObjectPool
 
     private void Awake()
     {
-        AddMonsterObjectPool(monsterPrefab);
-        StartCoroutine(AutoSpawn(autoSpawnDelay));
-    }
+        AddObjectPool(monsterPrefab);
+        StartCoroutine(AutoSpawn());
+    }    
     
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Spawn();
-        }        
-    }
-    
-    public void Spawn()
+    public void Spawn()     //  몬스터 수동 스폰
     {
         bool isSpawned = false;
         while (!isSpawned)
         {
-            for (int i = 0; i < monsterObjectPool.Count; i++)
+            for (int i = 0; i < objectPool.Count; i++)
             {
-                if (!monsterObjectPool[i].activeInHierarchy)
+                if (!objectPool[i].activeInHierarchy)
                 {
-                    monsterObjectPool[i].SetActive(true);
-                    monsterObjectPool[i].transform.position = SetRandomPosOutCamera();
+                    objectPool[i].SetActive(true);
+                    objectPool[i].transform.position = SetRandomPosOutCamera(); 
                     isSpawned = true;
                     break;
                 }
@@ -45,25 +37,25 @@ public class MonsterSpawner : MonsterObjectPool
 
             if (!isSpawned)
             {
-                monsterObjectPool.Add(Instantiate(monsterPrefab, SetRandomPosOutCamera(), Quaternion.identity, this.transform));
+                objectPool.Add(Instantiate(monsterPrefab, SetRandomPosOutCamera(), Quaternion.identity, this.transform));
                 isSpawned = true;
             }
         }
     }
 
-    IEnumerator AutoSpawn(float delayTime)
+    IEnumerator AutoSpawn()     //  자동 스폰
     {
         while (true)
         {
             if (isAutoSpawn)
             {
                 Spawn();
-                yield return new WaitForSeconds(delayTime);
+                yield return new WaitForSeconds(autoSpawnDelay);
             }
             yield return null;
         }
     }
-    Vector3 SetRandomPosOutCamera()
+    Vector3 SetRandomPosOutCamera() //  카메라 뷰포트 밖에 해당하는 랜덤 좌표 지정
     {
         int spawnPointType = Random.Range(0, 4); // 0:RightSide, 1:LeftSide, 2:TopSide, 3:BottomSide
 
