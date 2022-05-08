@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerGlobalCycleTimer))]
 public class Player : MonoBehaviour, IDamageable
 {
+    public event Action OnPlayerMove;
+    public event Action OnPlayerMoveStop;
+
     public GameObject playerAttackDirObject;
     public GameObject playerMoveDirObject;
 
@@ -47,6 +51,28 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField, Tooltip("이동속도")]
     float moveSpeed;
 
+    Vector3 moveDir;
+    public Vector3 MoveDir 
+    {
+        get
+        {
+            return moveDir;
+        }
+        set
+        {
+            moveDir = value;
+            
+            if(moveDir != Vector3.zero)
+            {                
+                OnPlayerMove?.Invoke();
+            }
+            else
+            {
+                OnPlayerMoveStop?.Invoke();
+            }
+        } 
+    }
+
     [Tooltip("장착 무기 오브젝트")]
     public BoxCollider2D equipWeaponCol;
 
@@ -54,7 +80,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();
+        playerRigidbody = GetComponent<Rigidbody2D>();        
     }
 
     private void FixedUpdate()
@@ -70,13 +96,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Move()
     {
-        //float moveX = Input.GetAxisRaw("Horizontal");
-        //float moveY = Input.GetAxisRaw("Vertical");
-
-        //playerRigidbody.velocity = new Vector2(moveX, moveY).normalized * moveSpeed;
-
-        playerRigidbody.velocity = (playerMoveDirObject.transform.position - transform.position) * moveSpeed;
-
+        MoveDir = (playerMoveDirObject.transform.position - transform.position).normalized;
+        playerRigidbody.velocity = moveDir * moveSpeed;
     }
 
     public void EnableWeaponCol()

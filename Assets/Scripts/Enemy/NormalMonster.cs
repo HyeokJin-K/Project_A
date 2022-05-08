@@ -20,8 +20,6 @@ public class NormalMonster : Monster, IDamageable
     }
 
     #region ActionMethod
-
-
     protected void Move()
     {
         monsterRigidbody.velocity = (targetObject.transform.position - transform.position).normalized * moveSpeed;        

@@ -65,12 +65,12 @@ public abstract class Monster : MonoBehaviour
             }
         }
     }
-    protected void NormalAttack(IDamageable target)
+    protected void NormalAttack(IDamageable target)     //  피격 공격
     {
         target.TakeDamage(currentAttackPower);
     }
 
-    protected IEnumerator NormalAttackDelayCycle()
+    protected IEnumerator NormalAttackDelayCycle()      //  피격 공격의 쿨타임
     {
         float t = 0;
 
