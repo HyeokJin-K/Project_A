@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
-public class MeleeWeapon : MonoBehaviour, IWeapon
+public abstract class MeleeWeapon : MonoBehaviour
 {
-    [Tooltip("PlayerGlobalCycleTimer 스크립트")]
-    public PlayerGlobalCycleTimer cycleTimer;
-
     [SerializeField]
     protected float attackPower;
     [SerializeField]
     protected float attackDelay;
     [SerializeField]
     protected float attackRange;
+    [SerializeField, ReadOnly]
+    protected bool isNormalAttackReady = true;
 
     [SerializeField, ReadOnly]
-    protected List<Collider2D> colEnemyList = new List<Collider2D>(); 
+    protected List<Collider2D> colEnemyList = new List<Collider2D>();
 
     public float AttackPower
     {
@@ -30,25 +28,34 @@ public class MeleeWeapon : MonoBehaviour, IWeapon
         }
     }
 
-    public void Attack()        // 일반 몬스터 공격
+    private void Awake()
     {
-        if (cycleTimer.skillAttackTimer["autoAttack"] < 0f)
-        {
-            for (int i = colEnemyList.Count - 1; i >= 0; i--)
-            {
-                colEnemyList[i].GetComponent<IDamageable>().TakeDamage(attackPower);                               
-            }
-            cycleTimer.skillAttackTimer["autoAttack"] = attackDelay;
-        }
-                   
+        isNormalAttackReady = true;
     }
 
+    public abstract void WeaponNormalAttack();      // 일반 몬스터 공격
+
+    protected IEnumerator WaitNormalAttackDelay()
+    {
+        float temp = attackDelay;
+
+        while (temp >= 0f)
+        {
+            temp -= Time.deltaTime;            
+
+            yield return null;
+        }
+
+        isNormalAttackReady = true;
+    }
+
+    #region CollisionEvent
     protected void OnTriggerEnter2D(Collider2D collision)   //  무기 범위 안에 들어온 몬스터들을 리스트에 추가
     {
-        if(collision.tag.Equals("Monster") || collision.tag.Equals("BossMonster"))
+        if (collision.CompareTag("Monster") || collision.CompareTag("BossMonster"))
         {
             if (!colEnemyList.Contains(collision))
-            {                
+            {
                 colEnemyList.Add(collision);
             }
         }
@@ -56,9 +63,9 @@ public class MeleeWeapon : MonoBehaviour, IWeapon
 
     private void OnTriggerStay2D(Collider2D collision)  // 범위 안에 있는 몬스터들을 공격
     {
-        if (collision.tag.Equals("Monster") || collision.tag.Equals("BossMonster"))
+        if (collision.CompareTag("Monster") || collision.CompareTag("BossMonster"))
         {
-            Attack();
+            WeaponNormalAttack();
         }
     }
 
@@ -69,5 +76,5 @@ public class MeleeWeapon : MonoBehaviour, IWeapon
             colEnemyList.Remove(collision);
         }
     }
-
+    #endregion
 }

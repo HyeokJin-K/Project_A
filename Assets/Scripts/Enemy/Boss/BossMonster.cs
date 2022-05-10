@@ -13,7 +13,7 @@ public class BossMonster : Monster, IDamageable
     public event Action OnBossAttackState;
     public event Action OnBossPhaseChange;
 
-    int currentPhase = 1; 
+    int currentPhase = 1;
 
     public enum BossState
     {
@@ -54,16 +54,8 @@ public class BossMonster : Monster, IDamageable
         OnBossPhaseChange += SetSkillList;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            PhaseChange();
-        }
-    }
-
     void Idle()
-    {        
+    {
     }
 
     void Move()
@@ -77,8 +69,8 @@ public class BossMonster : Monster, IDamageable
     }
 
     void PhaseChange()  //  보스 페이즈 변경
-    {        
-        if(currentPhase < transform.childCount)
+    {
+        if (currentPhase < transform.childCount)
         {
             transform.GetChild(currentPhase - 1).gameObject.SetActive(false);
             ++currentPhase;
@@ -111,6 +103,6 @@ public class BossMonster : Monster, IDamageable
 
     protected override void Die()
     {
-        
+
     }
 }

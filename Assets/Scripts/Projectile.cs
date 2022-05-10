@@ -13,16 +13,20 @@ public class Projectile : MonoBehaviour, IProjectile
     [SerializeField]
     Rigidbody2D projectileRigidbody;    
 
-    IProjectile.ProjectileMode mode = IProjectile.ProjectileMode.Normal;
+    IProjectile.ProjectileSpeedMode speedMode = IProjectile.ProjectileSpeedMode.Normal;    
 
-    float speed = 1f;
-    float maxSpeed;
-    float power = 1f;
-    float lifeTime = 5f;
+    float speed;
+    [SerializeField]
+    float maxSpeed = 20f;
+    float power;
+    [SerializeField]
+    float lifeTime;
 
     private void Awake()
     {
-        projectileRigidbody = projectileRigidbody == null ? GetComponent<Rigidbody2D>() : projectileRigidbody;           
+        #region Caching
+        projectileRigidbody = projectileRigidbody == null ? GetComponent<Rigidbody2D>() : projectileRigidbody;
+        #endregion
     }
 
     private void FixedUpdate()
@@ -39,20 +43,18 @@ public class Projectile : MonoBehaviour, IProjectile
     {
         float temp = lifeTime;
 
-        while (lifeTime >= 0)
+        while (temp >= 0)
         {
-            lifeTime -= Time.deltaTime;
+            temp -= Time.deltaTime;
             yield return null;
         }
-
-        lifeTime = temp;
+        
         gameObject.SetActive(false);
     }
 
     public void SetProjectileValue(float speed, float power, float lifeTime) 
     {
-        this.speed = speed;
-        maxSpeed = speed * 15f;
+        this.speed = speed;        
         this.power = power;
         this.lifeTime = lifeTime;        
     }
@@ -62,9 +64,9 @@ public class Projectile : MonoBehaviour, IProjectile
         this.targetObject = targetObject;
     }
 
-    public void SetMoveTarget(Vector3 targetPoint, IProjectile.ProjectileMode mode)    
+    public void SetMoveTarget(Vector3 targetPoint, IProjectile.ProjectileSpeedMode mode)    
     {
-        this.mode = mode;
+        this.speedMode = mode;
         this.targetPoint = targetPoint;
         moveDir = (this.targetPoint - transform.position).normalized;
     }
@@ -76,7 +78,7 @@ public class Projectile : MonoBehaviour, IProjectile
         while (t <= pathfindingTime)
         {
             t += Time.deltaTime;
-            SetMoveTarget(targetPoint, IProjectile.ProjectileMode.Normal);
+            SetMoveTarget(targetPoint, IProjectile.ProjectileSpeedMode.Normal);
 
             yield return null;
         }
@@ -84,7 +86,7 @@ public class Projectile : MonoBehaviour, IProjectile
 
     void Move()
     {                
-        if(mode == IProjectile.ProjectileMode.Acceleration)
+        if(speedMode == IProjectile.ProjectileSpeedMode.Acceleration)
         {
             if(speed < maxSpeed)
             {
@@ -97,10 +99,10 @@ public class Projectile : MonoBehaviour, IProjectile
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals(targetObject.tag))
+        if (collision.CompareTag(targetObject.tag))
         {
             collision.GetComponent<IDamageable>()?.TakeDamage(power);            
             gameObject.SetActive(false);
         }
-    }    
+    }
 }

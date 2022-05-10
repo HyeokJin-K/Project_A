@@ -10,21 +10,24 @@ public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     Vector3 leverPos;
     float sizeX;
-    float sizeXRate;   
+    float sizeXRate;
 
-    private void Start()
+    private void Awake()
     {
+        #region Caching
         sizeX = gameObject.GetComponent<Image>().sprite.rect.width;
-        sizeXRate = gameObject.GetComponent<RectTransform>().rect.width / sizeX;                
-    }    
+        sizeXRate = gameObject.GetComponent<RectTransform>().rect.width / sizeX;
+        #endregion
+    }
 
+    #region DragEvent
     public void OnBeginDrag(PointerEventData eventData)
-    {        
-        BeginDragMethod();        
+    {
+        BeginDragMethod();
     }
 
     public void OnDrag(PointerEventData eventData)
-    {                
+    {
         Vector2 currentLeverPos = eventData.position - (Vector2)gameObject.transform.position;      // 현재 레버의 로컬 좌표
         leverPos = currentLeverPos.magnitude < (sizeX - 5f) * sizeXRate * 0.5f ? currentLeverPos :  //  중심에서 현재 현재 위치까지의 거리 값으로 레버 이동 범위 제한
                                                         currentLeverPos.normalized * (sizeX - 5f) * sizeXRate * 0.5f;
@@ -37,21 +40,13 @@ public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler,
     {
         lever.localPosition = Vector2.zero;
 
-        EndDragMethod();       
+        EndDragMethod();
     }
+    #endregion
 
-    protected virtual void BeginDragMethod()
-    {
+    protected abstract void BeginDragMethod();
+    protected abstract void DragMethod();
 
-    }
-    protected virtual void DragMethod()
-    {
-
-    }
-
-    protected virtual void EndDragMethod()
-    {
-
-    }
+    protected abstract void EndDragMethod();
 
 }

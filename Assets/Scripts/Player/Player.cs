@@ -11,6 +11,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public GameObject playerAttackDirObject;
     public GameObject playerMoveDirObject;
+    public Rigidbody2D playerRigidbody;
 
     public enum PlayerAction
     {
@@ -18,20 +19,20 @@ public class Player : MonoBehaviour, IDamageable
         Move,
         Attack,
         Dead
-    }   
+    }
 
     [SerializeField, Tooltip("체력")]
     float hp;
-    public float Hp 
-    { 
+    public float Hp
+    {
         get
         {
             return hp;
-        }            
+        }
         set
         {
             hp = value;
-        }        
+        }
     }
 
     [SerializeField, Tooltip("방어력")]
@@ -52,7 +53,7 @@ public class Player : MonoBehaviour, IDamageable
     float moveSpeed;
 
     Vector3 moveDir;
-    public Vector3 MoveDir 
+    public Vector3 MoveDir
     {
         get
         {
@@ -61,26 +62,24 @@ public class Player : MonoBehaviour, IDamageable
         set
         {
             moveDir = value;
-            
-            if(moveDir != Vector3.zero)
-            {                
+
+            if (moveDir != Vector3.zero)
+            {
                 OnPlayerMove?.Invoke();
             }
             else
             {
                 OnPlayerMoveStop?.Invoke();
             }
-        } 
+        }
     }
 
-    [Tooltip("장착 무기 오브젝트")]
-    public BoxCollider2D equipWeaponCol;
-
-    public Rigidbody2D playerRigidbody;
 
     private void Awake()
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();        
+        #region Caching
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        #endregion
     }
 
     private void FixedUpdate()
@@ -97,17 +96,12 @@ public class Player : MonoBehaviour, IDamageable
     public void Move()
     {
         MoveDir = (playerMoveDirObject.transform.position - transform.position).normalized;
-        playerRigidbody.velocity = moveDir * moveSpeed;
+        playerRigidbody.velocity = moveDir * moveSpeed;        
     }
-
-    public void EnableWeaponCol()
-    {
-        equipWeaponCol.enabled = true;
-    }
-#endregion
+    #endregion
 
     public void TakeDamage(float damageValue)
     {
-        hp -= damageValue;        
+        hp -= damageValue;
     }
 }

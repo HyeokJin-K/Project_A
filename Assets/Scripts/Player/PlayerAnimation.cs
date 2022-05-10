@@ -22,22 +22,25 @@ public class PlayerAnimation : MonoBehaviour
         set
         {
             playerMoveDir = value;
-            if(playerMoveDir.x < 0)
+
+            if (playerMoveDir.x < 0)
             {
                 playerSpriteRenderer.flipX = true;
             }
-            else if(playerMoveDir.x > 0)
+            else if (playerMoveDir.x > 0)
             {
                 playerSpriteRenderer.flipX = false;
             }
         }
     }
-    
+
     private void Awake()
     {
+        #region Caching
         playerScript = playerScript == null ? GetComponent<Player>() : playerScript;
         playerAnimator = playerAnimator == null ? GetComponent<Animator>() : playerAnimator;
         playerSpriteRenderer = playerSpriteRenderer == null ? GetComponent<SpriteRenderer>() : playerSpriteRenderer;
+        #endregion
 
         playerScript.OnPlayerMove += SetMoveValue;
         playerScript.OnPlayerMove += () => playerAnimator.SetBool("IsMove", true);
@@ -47,6 +50,6 @@ public class PlayerAnimation : MonoBehaviour
     public void SetMoveValue()  //  플레이어 애니메이션 조정에 필요한 값 초기화
     {
         PlayerMoveDir = playerScript.MoveDir;
-        
+
     }
 }

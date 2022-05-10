@@ -42,7 +42,6 @@ public class MonsterSpawner : ObjectPool
             }
         }
     }
-
     IEnumerator AutoSpawn()     //  자동 스폰
     {
         while (true)

@@ -7,11 +7,11 @@ using Random = UnityEngine.Random;
 public class NormalMonster : Monster, IDamageable
 {            
     private void Awake()
-    {                                
+    {
+        #region Caching
         monsterRigidbody = GetComponent<Rigidbody2D>();
         targetObject = GameObject.FindWithTag("Player");
-
-        moveSpeed = 1f;
+        #endregion
     }    
     
     private void FixedUpdate()
@@ -22,7 +22,7 @@ public class NormalMonster : Monster, IDamageable
     #region ActionMethod
     protected void Move()
     {
-        monsterRigidbody.velocity = (targetObject.transform.position - transform.position).normalized * moveSpeed;        
+        monsterRigidbody.velocity = (targetObject.transform.position - transform.position).normalized * monsterData.MoveSpeed;        
     }
     protected override void Die()
     {

@@ -302,11 +302,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc914033da10d943a48d78ee00ac960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cycleTimer: {fileID: 1969275371393833836}
   attackPower: 1
   attackDelay: 1
   attackRange: 1
+  isNormalAttackReady: 1
   colEnemyList: []
+  currentSkillList: []
 --- !u!60 &1870001701
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -351,8 +352,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 239827013473880540}
-  - component: {fileID: 239827013473880543}
   - component: {fileID: 239827013473880541}
+  - component: {fileID: 239827013473880543}
   - component: {fileID: 125042533}
   - component: {fileID: 239827013621943512}
   - component: {fileID: 6574774385057798979}
@@ -382,6 +383,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &239827013473880541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239827013473880542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5654e3dec61da244fb660ecfc161c79d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAttackDirObject: {fileID: 1071421275}
+  playerMoveDirObject: {fileID: 1517004450}
+  playerRigidbody: {fileID: 239827013621943512}
+  hp: 100
+  defensePower: 1
+  moveSpeed: 10
 --- !u!212 &239827013473880543
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -433,25 +452,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &239827013473880541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 239827013473880542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5654e3dec61da244fb660ecfc161c79d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerAttackDirObject: {fileID: 1071421275}
-  playerMoveDirObject: {fileID: 1517004450}
-  hp: 100
-  defensePower: 1
-  moveSpeed: 10
-  equipWeaponCol: {fileID: 0}
-  playerRigidbody: {fileID: 239827013621943512}
 --- !u!61 &125042533
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -513,6 +513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScript: {fileID: 239827013473880541}
   playerAnimator: {fileID: 1149460499}
+  playerSpriteRenderer: {fileID: 0}
 --- !u!114 &1969275371393833836
 MonoBehaviour:
   m_ObjectHideFlags: 0

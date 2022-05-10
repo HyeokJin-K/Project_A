@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class MapSetArray : MonoBehaviour
 {
-    public Transform playerTransform;    
+    public Transform playerTransform;
     public GameObject[] mapObjectArray; // [1]ºÏ [4]Áß¾Ó [3]¼­ [5]µ¿ [7]ºÏ
 
 
     Vector2 centerPos;
-    float tileHalfSize;    
+    float tileHalfSize;
 
-    private void Start()
+    private void Awake()
     {
         tileHalfSize = Mathf.Abs(mapObjectArray[4].transform.position.x - mapObjectArray[5].transform.position.x) * 0.5f;
-        centerPos = mapObjectArray[4].transform.position;        
+        centerPos = mapObjectArray[4].transform.position;
     }
     void Update()
     {
-       MoveSetTile();
+        MoveSetTile();
     }
 
     public void MoveSetTile()   //  ¸ÊÀÇ Áß¾Ó¿¡¼­ ¹þ¾î³µÀ» ¶§ ¸Ê Àç¹èÄ¡ (¹«ÇÑ¸Ê)
@@ -35,7 +35,7 @@ public class MapSetArray : MonoBehaviour
 
             for (int i = 0; i < 9; i++)
             {
-                if(i % 3 == 2)
+                if (i % 3 == 2)
                 {
                     copyMapArray[i - 2] = mapObjectArray[i];
                     mapObjectArray[i].transform.position = new Vector2(mapObjectArray[i].transform.position.x - tileHalfSize * 6f,
@@ -47,7 +47,7 @@ public class MapSetArray : MonoBehaviour
                 }
             }
             mapObjectArray = copyMapArray;
-        }                         
+        }
         //  [0][1][2]    [1][2][0]      
         //  [3][4][5] -> [3][4][3]      
         //  [6][7][8]    [7][8][6]     
@@ -56,9 +56,9 @@ public class MapSetArray : MonoBehaviour
             GameObject[] copyMapArray = new GameObject[9];
             System.Array.Copy(mapObjectArray, copyMapArray, 9);
 
-            for(int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; i++)
             {
-                if(i % 3 == 0)
+                if (i % 3 == 0)
                 {
                     copyMapArray[i + 2] = mapObjectArray[i];
                     mapObjectArray[i].transform.position = new Vector2(mapObjectArray[i].transform.position.x + tileHalfSize * 6f,
@@ -67,7 +67,7 @@ public class MapSetArray : MonoBehaviour
                 else
                 {
                     copyMapArray[i - 1] = mapObjectArray[i];
-                }                
+                }
             }
             mapObjectArray = copyMapArray;
         }
@@ -79,9 +79,9 @@ public class MapSetArray : MonoBehaviour
             GameObject[] copyMapArray = new GameObject[9];
             System.Array.Copy(mapObjectArray, copyMapArray, 9);
 
-            for(int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; i++)
             {
-                if(i > 5)
+                if (i > 5)
                 {
                     copyMapArray[i - 6] = mapObjectArray[i];
                     mapObjectArray[i].transform.position = new Vector2(mapObjectArray[i].transform.position.x,

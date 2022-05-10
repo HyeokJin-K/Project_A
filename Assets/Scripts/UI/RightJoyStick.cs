@@ -6,9 +6,10 @@ using UnityEngine;
 // 공격 조이스틱
 public class RightJoyStick : JoyStick
 {
-    public GameObject playerAttackDirObject;
+    public GameObject playerAttackDirObject;    
+    IWeapon weapon;
 
-    void MoveDirObjectPos()
+    void ActiveAttackDirObjectPos()
     {
         playerAttackDirObject.transform.localPosition = lever.localPosition.normalized * 0.5f;
         playerAttackDirObject.transform.up = (lever.position - transform.position).normalized;
@@ -17,21 +18,20 @@ public class RightJoyStick : JoyStick
     #region 조이스틱 콜백
     protected override void BeginDragMethod()
     {
-        base.BeginDragMethod();
-        MoveDirObjectPos();
-        playerAttackDirObject.SetActive(true);        
+        ActiveAttackDirObjectPos();
+
+        weapon = weapon == null ? playerAttackDirObject.GetComponentInChildren<IWeapon>() : weapon;
+        weapon.SetWeaponInput();
     }
 
     protected override void DragMethod()
     {
-        base.DragMethod();
-        MoveDirObjectPos();
+        ActiveAttackDirObjectPos();        
     }
 
     protected override void EndDragMethod()
     {
-        base.EndDragMethod();
-        playerAttackDirObject.SetActive(false);
+        weapon.SetWeaponInput();
     }
     #endregion
 }

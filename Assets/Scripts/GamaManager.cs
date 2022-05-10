@@ -32,7 +32,7 @@ public class GamaManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        StartCoroutine(StartInGameTime());
+        StartCoroutine(StartInGameTime());        
     }
     
     //void Update()
