@@ -18,7 +18,7 @@ TagManager:
   - Player
   - Monster
   - Boss Monster
-  - 
+  - Map
   - 
   - 
   - 
@@ -44,4 +44,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Map
+    uniqueID: 4285330433
+    locked: 0
+  - name: Object
+    uniqueID: 4244759445
+    locked: 0
+  - name: UI
+    uniqueID: 271258285
     locked: 0

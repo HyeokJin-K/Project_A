@@ -357,7 +357,6 @@ GameObject:
   - component: {fileID: 125042533}
   - component: {fileID: 239827013621943512}
   - component: {fileID: 6574774385057798979}
-  - component: {fileID: 1969275371393833836}
   - component: {fileID: 1149460499}
   m_Layer: 6
   m_Name: Player
@@ -438,8 +437,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -50207851
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300046, guid: 0409f2fddf07780408257c186ab69681, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -514,19 +513,6 @@ MonoBehaviour:
   playerScript: {fileID: 239827013473880541}
   playerAnimator: {fileID: 1149460499}
   playerSpriteRenderer: {fileID: 0}
---- !u!114 &1969275371393833836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 239827013473880542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bb4457eced79ae469f39e98b0096988, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillList: []
 --- !u!95 &1149460499
 Animator:
   serializedVersion: 3

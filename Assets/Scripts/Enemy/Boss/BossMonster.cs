@@ -5,16 +5,14 @@ using UnityEngine;
 
 public class BossMonster : Monster, IDamageable
 {
-    [SerializeField, ReadOnly]
-    List<GameObject> currentSkillList = new List<GameObject>();
-
+    #region Event
     public event Action OnBossIdleState;
     public event Action OnBossMoveState;
     public event Action OnBossAttackState;
     public event Action OnBossPhaseChange;
+    #endregion
 
-    int currentPhase = 1;
-
+    #region Public Field
     public enum BossState
     {
         Idle,
@@ -23,7 +21,6 @@ public class BossMonster : Monster, IDamageable
     }
 
     BossState state = BossState.Idle;
-
     public BossState State
     {
         get
@@ -47,12 +44,24 @@ public class BossMonster : Monster, IDamageable
             }
         }
     }
+    #endregion
 
+    #region Private Field
+    [SerializeField, ReadOnly]
+    List<GameObject> currentSkillList = new List<GameObject>();
+
+    int currentPhase = 1;
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         SetSkillList(); //  최초 스킬 초기화
         OnBossPhaseChange += SetSkillList;
     }
+    #endregion
 
     void Idle()
     {

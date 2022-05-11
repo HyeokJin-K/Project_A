@@ -4,18 +4,7 @@ using UnityEngine;
 
 public abstract class MeleeWeapon : MonoBehaviour
 {
-    [SerializeField]
-    protected float attackPower;
-    [SerializeField]
-    protected float attackDelay;
-    [SerializeField]
-    protected float attackRange;
-    [SerializeField, ReadOnly]
-    protected bool isNormalAttackReady = true;
-
-    [SerializeField, ReadOnly]
-    protected List<Collider2D> colEnemyList = new List<Collider2D>();
-
+    #region Public Field
     public float AttackPower
     {
         get
@@ -27,29 +16,30 @@ public abstract class MeleeWeapon : MonoBehaviour
             attackPower = value;
         }
     }
+    #endregion
 
+    #region Protected Field
+    [SerializeField]
+    protected float attackPower;
+    [SerializeField]
+    protected float attackDelay;
+    [SerializeField]
+    protected float attackRange;
+    [SerializeField, ReadOnly]
+    protected bool isNormalAttackReady = true;
+
+    [SerializeField, ReadOnly]
+    protected List<Collider2D> colEnemyList = new List<Collider2D>();
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         isNormalAttackReady = true;
     }
 
-    public abstract void WeaponNormalAttack();      // 일반 몬스터 공격
-
-    protected IEnumerator WaitNormalAttackDelay()
-    {
-        float temp = attackDelay;
-
-        while (temp >= 0f)
-        {
-            temp -= Time.deltaTime;            
-
-            yield return null;
-        }
-
-        isNormalAttackReady = true;
-    }
-
-    #region CollisionEvent
     protected void OnTriggerEnter2D(Collider2D collision)   //  무기 범위 안에 들어온 몬스터들을 리스트에 추가
     {
         if (collision.CompareTag("Monster") || collision.CompareTag("BossMonster"))
@@ -77,4 +67,21 @@ public abstract class MeleeWeapon : MonoBehaviour
         }
     }
     #endregion
+
+    protected abstract void WeaponNormalAttack();      // 일반 몬스터 공격
+
+    protected IEnumerator WaitNormalAttackDelay()
+    {
+        float temp = attackDelay;
+
+        while (temp >= 0f)
+        {
+            temp -= Time.deltaTime;            
+
+            yield return null;
+        }
+
+        isNormalAttackReady = true;
+    }
+
 }

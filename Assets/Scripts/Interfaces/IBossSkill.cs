@@ -1,15 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public interface ISkill
+public interface IBossSkill
 {
     bool IsSkillReady { get; }      // 스킬 준비 변수
 
     //------------------------------------------------------------------------------------------------
-
-    PlayerSkillData GetPlayerSkillData();
-
-    void ReinforceSkill();
 
     void ActivateSkill();    //  스킬 활성화
 
@@ -24,5 +22,5 @@ public interface ISkill
         }
 
         isSkillReady = true;
-    }*/                                   
+    }*/
 }

@@ -10,6 +10,8 @@ public interface IProjectile
         Acceleration
     }
 
+    //------------------------------------------------------------------------------------------------
+
     void SetCollisionTarget(GameObject targetObject); // 충돌 대상 설정
 
     void SetMoveTarget(Vector3 targetPoint, ProjectileSpeedMode mode); // 추적 할 타겟 위치 설정

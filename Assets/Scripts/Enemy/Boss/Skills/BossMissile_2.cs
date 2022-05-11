@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossMissile_2 : ObjectPool, ISkill
+public class BossMissile_2 : ObjectPool, IBossSkill
 {
+    #region Public Field
     public GameObject missilePrefab;
     public Transform bossMissile2PoolTransform;
+    public bool IsSkillReady { get => isSkillReady; }
+    #endregion
 
+    #region Private Field
     [SerializeField]
     float missilePower;
     [SerializeField]
@@ -15,11 +19,11 @@ public class BossMissile_2 : ObjectPool, ISkill
     float skillDelay;
     [SerializeField, ReadOnly]
     bool isSkillReady;
+    #endregion
 
-    public float SkillPower { get => missilePower; set => missilePower = value; }
-    public float SkillDelay { get => skillDelay; set => skillDelay = value; }
-    public bool IsSkillReady { get => isSkillReady; }
+    //------------------------------------------------------------------------------------------------
 
+    #region Unity LifeCycle
     private void Awake()
     {
         isSkillReady = true;
@@ -38,14 +42,7 @@ public class BossMissile_2 : ObjectPool, ISkill
             angle += 30f;
         }        
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            ActivateSkill();
-        }
-    }
+    #endregion
 
     public void ActivateSkill()
     {
@@ -83,5 +80,4 @@ public class BossMissile_2 : ObjectPool, ISkill
         Debug.Log($"{this.GetType()} 준비 완료");
         isSkillReady = true;
     }
-
 }

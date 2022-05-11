@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerGlobalCycleTimer))]
-public class Player : MonoBehaviour, IDamageable
+public class Player : MonoBehaviour, IDamageable, IMoveable
 {
+    #region Event
     public event Action OnPlayerMove;
     public event Action OnPlayerMoveStop;
+    #endregion
 
-    public GameObject playerAttackDirObject;
-    public GameObject playerMoveDirObject;
-    public Rigidbody2D playerRigidbody;
-
+    #region Public Field
     public enum PlayerAction
     {
         Idle,
@@ -20,9 +18,9 @@ public class Player : MonoBehaviour, IDamageable
         Attack,
         Dead
     }
-
-    [SerializeField, Tooltip("체력")]
-    float hp;
+    public GameObject playerAttackDirObject;
+    public GameObject playerMoveDirObject;
+    public Rigidbody2D playerRigidbody;
     public float Hp
     {
         get
@@ -34,9 +32,6 @@ public class Player : MonoBehaviour, IDamageable
             hp = value;
         }
     }
-
-    [SerializeField, Tooltip("방어력")]
-    float defensePower;
     public float DefensePower
     {
         get
@@ -48,11 +43,6 @@ public class Player : MonoBehaviour, IDamageable
             defensePower = value;
         }
     }
-
-    [SerializeField, Tooltip("이동속도")]
-    float moveSpeed;
-
-    Vector3 moveDir;
     public Vector3 MoveDir
     {
         get
@@ -73,8 +63,24 @@ public class Player : MonoBehaviour, IDamageable
             }
         }
     }
+    #endregion    
 
+    #region Private Field
+    [SerializeField, Tooltip("체력")]
+    float hp;
 
+    [SerializeField, Tooltip("방어력")]
+    float defensePower;
+
+    [SerializeField, Tooltip("이동속도")]
+    float moveSpeed;
+
+    Vector3 moveDir;
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         #region Caching
@@ -86,8 +92,8 @@ public class Player : MonoBehaviour, IDamageable
     {
         Move();
     }
+    #endregion
 
-    #region ActionMethod
     public void Idle()
     {
         throw new System.NotImplementedException();
@@ -98,7 +104,6 @@ public class Player : MonoBehaviour, IDamageable
         MoveDir = (playerMoveDirObject.transform.position - transform.position).normalized;
         playerRigidbody.velocity = moveDir * moveSpeed;        
     }
-    #endregion
 
     public void TakeDamage(float damageValue)
     {

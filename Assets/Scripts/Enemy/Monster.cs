@@ -5,16 +5,7 @@ using UnityEngine;
 
 public abstract class Monster : MonoBehaviour
 {
-    [SerializeField]
-    protected Rigidbody2D monsterRigidbody;
-    [SerializeField]
-    protected MonsterData monsterData;
-
-    [SerializeField, ReadOnly]
-    protected float currentHp;
-    [SerializeField, ReadOnly]
-    bool isNormalAttackReady = true;
-
+    #region Public Field
     public float CurrentHp
     {
         get
@@ -30,12 +21,64 @@ public abstract class Monster : MonoBehaviour
             }
         }
     }
-    private void Awake()
-    {        
-    }
+    #endregion
 
+    #region Private Field
+    [SerializeField, ReadOnly]
+    bool isNormalAttackReady = true;
+    #endregion
+
+    #region Protected Field
+    [SerializeField]
+    protected Rigidbody2D monsterRigidbody;
+    [SerializeField]
+    protected MonsterData monsterData;
+    [SerializeField, ReadOnly]
+    protected float currentHp;
     [SerializeField]
     protected GameObject targetObject;
+    protected IDamageable playerIDamageable;
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerIDamageable = collision.gameObject.GetComponent<IDamageable>();
+            StartCoroutine(NormalAttack());
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerIDamageable = null;
+        }
+    }
+
+    protected void OnEnable()
+    {
+        currentHp = monsterData.HealthPoint;
+    }
+    #endregion
+
+    IEnumerator NormalAttack()     //  피격 공격
+    {
+        while(playerIDamageable != null)
+        {
+            if (isNormalAttackReady)
+            {
+                playerIDamageable.TakeDamage(monsterData.AttackPower);
+                isNormalAttackReady = false;
+                StartCoroutine(WaitNormalAttackDelay());
+            }
+            yield return null;
+        }
+    }
     protected IEnumerator WaitNormalAttackDelay()      //  피격 공격의 쿨타임
     {
         float t = 0;
@@ -48,29 +91,5 @@ public abstract class Monster : MonoBehaviour
 
         isNormalAttackReady = true;
     }
-    protected void NormalAttack(IDamageable target)     //  피격 공격
-    {
-        target.TakeDamage(monsterData.AttackPower);
-    }
     protected abstract void Die();    
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (isNormalAttackReady)
-            {
-                NormalAttack(collision.gameObject.GetComponent<IDamageable>());
-                isNormalAttackReady = false;
-                StartCoroutine(WaitNormalAttackDelay());
-            }
-        }
-    }
-
-    protected void OnEnable()
-    {
-        currentHp = monsterData.HealthPoint;
-    }
-
-
 }

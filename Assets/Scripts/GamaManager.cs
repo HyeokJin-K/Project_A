@@ -6,19 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class GamaManager : MonoBehaviour
 {
+    #region Public Field
     public static GamaManager instance;
-
+    public UIManager uiManager;
     public enum SceneState
     {
         MainMenu,
         InGame
     }
-
     [ReadOnly]
-    public SceneState sceneState = SceneState.MainMenu;
-    
+    public SceneState sceneState = SceneState.MainMenu;    
     public float inGameTime;
+    #endregion
 
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {        
         if (!instance)
@@ -34,7 +37,7 @@ public class GamaManager : MonoBehaviour
 
         StartCoroutine(StartInGameTime());        
     }
-    
+
     //void Update()
     //{
     //    if (Input.GetKeyDown(KeyCode.M))
@@ -47,6 +50,7 @@ public class GamaManager : MonoBehaviour
     //        LoadGameScene();
     //    }
     //}
+    #endregion
 
     IEnumerator StartInGameTime()
     {
@@ -54,10 +58,11 @@ public class GamaManager : MonoBehaviour
         {
             yield return new WaitUntil(() => instance.sceneState == SceneState.InGame);
             instance.inGameTime += Time.deltaTime;
+            yield return null;
         }
     }
 
-    #region SceneMethod
+    #region Scene Method
     public IEnumerator LoadGameScene(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);

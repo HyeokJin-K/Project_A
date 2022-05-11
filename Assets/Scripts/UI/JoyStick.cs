@@ -6,12 +6,19 @@ using UnityEngine.UI;
 
 public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    #region Public Field
     public RectTransform lever;
+    #endregion
 
+    #region Private Field
     Vector3 leverPos;
     float sizeX;
     float sizeXRate;
+    #endregion
 
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         #region Caching
@@ -19,8 +26,9 @@ public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler,
         sizeXRate = gameObject.GetComponent<RectTransform>().rect.width / sizeX;
         #endregion
     }
+    #endregion
 
-    #region DragEvent
+    #region DragEvent Method
     public void OnBeginDrag(PointerEventData eventData)
     {
         BeginDragMethod();
@@ -46,7 +54,6 @@ public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     protected abstract void BeginDragMethod();
     protected abstract void DragMethod();
-
     protected abstract void EndDragMethod();
 
 }

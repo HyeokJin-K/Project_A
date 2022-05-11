@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour, IProjectile
 {
+    #region Private Field
     [SerializeField, ReadOnly]
     GameObject targetObject;
     [SerializeField, ReadOnly]
@@ -21,7 +22,11 @@ public class Projectile : MonoBehaviour, IProjectile
     float power;
     [SerializeField]
     float lifeTime;
+    #endregion
 
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         #region Caching
@@ -38,6 +43,16 @@ public class Projectile : MonoBehaviour, IProjectile
     {
         StartCoroutine(ProjectileLifeEnd());
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(targetObject.tag))
+        {
+            collision.GetComponent<IDamageable>()?.TakeDamage(power);            
+            gameObject.SetActive(false);
+        }
+    }
+    #endregion
 
     IEnumerator ProjectileLifeEnd()     //  탄막의 라이프 타임이 0이 되면 탄막 오브젝트 비활성화
     {
@@ -90,19 +105,11 @@ public class Projectile : MonoBehaviour, IProjectile
         {
             if(speed < maxSpeed)
             {
-                speed += speed * 0.1f;
+                speed += speed * speed * 0.5f * Time.fixedDeltaTime;
             }            
         }        
 
         projectileRigidbody.velocity = moveDir * speed;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(targetObject.tag))
-        {
-            collision.GetComponent<IDamageable>()?.TakeDamage(power);            
-            gameObject.SetActive(false);
-        }
-    }
 }

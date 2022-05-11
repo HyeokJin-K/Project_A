@@ -5,14 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 public class PlayerAnimation : MonoBehaviour
 {
-    [SerializeField]
-    Player playerScript;
-    [SerializeField]
-    Animator playerAnimator;
-    [SerializeField]
-    SpriteRenderer playerSpriteRenderer;
-
-    Vector2 playerMoveDir;
+    #region Public Field
     public Vector2 PlayerMoveDir
     {
         get
@@ -33,7 +26,22 @@ public class PlayerAnimation : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Private Field
+    [SerializeField]
+    Player playerScript;
+    [SerializeField]
+    Animator playerAnimator;
+    [SerializeField]
+    SpriteRenderer playerSpriteRenderer;
+
+    Vector2 playerMoveDir;
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         #region Caching
@@ -46,6 +54,7 @@ public class PlayerAnimation : MonoBehaviour
         playerScript.OnPlayerMove += () => playerAnimator.SetBool("IsMove", true);
         playerScript.OnPlayerMoveStop += () => playerAnimator.SetBool("IsMove", false);
     }
+    #endregion
 
     public void SetMoveValue()  //  플레이어 애니메이션 조정에 필요한 값 초기화
     {

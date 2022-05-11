@@ -6,8 +6,15 @@ using UnityEngine;
 // 공격 조이스틱
 public class RightJoyStick : JoyStick
 {
-    public GameObject playerAttackDirObject;    
+    #region Public Field
+    public GameObject playerAttackDirObject;
+    #endregion
+
+    #region Private Field
     IWeapon weapon;
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
 
     void ActiveAttackDirObjectPos()
     {

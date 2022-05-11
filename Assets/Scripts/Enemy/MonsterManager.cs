@@ -4,21 +4,46 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class MonsterSpawner : ObjectPool
+public class MonsterManager : ObjectPool
 {
-    public GameObject monsterPrefab;
+    #region Public Field
+    public GameObject monsterPrefab;    
 
     [Tooltip("자동 스폰 기능")]
     public bool isAutoSpawn = true;
     [Tooltip("자동 스폰 딜레이(초) 설정")]
     public float autoSpawnDelay = 1.0f;
+    #endregion
 
+    #region Private Field    
+    List<IMoveable> monsterMoveInterfaces = new List<IMoveable>();
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         AddObjectPool(monsterPrefab);
+        foreach(var monster in objectPool)
+        {
+            monsterMoveInterfaces.Add(monster.GetComponent<IMoveable>());
+        }
         StartCoroutine(AutoSpawn());
-    }    
-    
+    }
+
+    private void FixedUpdate()
+    {
+        for(int i = 0; i < objectPool.Count; i++)
+        {
+            if (objectPool[i].activeInHierarchy)
+            {
+                monsterMoveInterfaces[i].Move();
+            }
+        }
+    }
+    #endregion
+
     public void Spawn()     //  몬스터 수동 스폰
     {
         bool isSpawned = false;
@@ -38,6 +63,7 @@ public class MonsterSpawner : ObjectPool
             if (!isSpawned)
             {
                 objectPool.Add(Instantiate(monsterPrefab, SetRandomPosOutCamera(), Quaternion.identity, this.transform));
+                monsterMoveInterfaces.Add(objectPool[objectPool.Count - 1].GetComponent<IMoveable>());
                 isSpawned = true;
             }
         }

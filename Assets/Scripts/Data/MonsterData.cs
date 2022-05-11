@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MonsterData", menuName = "Scriptbale Object/Monster Data", order = int.MaxValue)]
 public class MonsterData : ScriptableObject
 {
-    #region Private Variable
+    #region Private Field
     [SerializeField]
     string monsterName;
     [SerializeField]
@@ -18,7 +18,7 @@ public class MonsterData : ScriptableObject
     float attackDelay;
     #endregion
 
-    #region Public Property
+    #region Public Field
     public string MonsterName { get => monsterName; }
     public float HealthPoint { get => healthPoint; }
     public float AttackPower { get => attackPower; }

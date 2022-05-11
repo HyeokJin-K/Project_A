@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossMissile_1 : ObjectPool, ISkill
+public class BossMissile_1 : ObjectPool, IBossSkill
 {
+    #region Public Field
     public GameObject missilePrefab;    
     public Transform bossMissile1PoolTransform;
+    public bool IsSkillReady { get => isSkillReady; }
+    #endregion
 
+    #region Private Field
     [SerializeField]
     float missilePower;
     [SerializeField]
@@ -15,11 +19,11 @@ public class BossMissile_1 : ObjectPool, ISkill
     float skillDelay;
     [SerializeField, ReadOnly]
     bool isSkillReady;
+    #endregion
 
-    public float SkillPower { get => missilePower; set => missilePower = value; }
-    public float SkillDelay { get => skillDelay; set => skillDelay = value; }
-    public bool IsSkillReady { get => isSkillReady; }  
+    //------------------------------------------------------------------------------------------------
 
+    #region Unity LifeCycle
     private void Awake()
     {
         isSkillReady = true;
@@ -31,14 +35,7 @@ public class BossMissile_1 : ObjectPool, ISkill
             missile.GetComponent<IProjectile>().SetCollisionTarget(player);            
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            ActivateSkill();
-        }
-    }
+    #endregion
 
     public void ActivateSkill()
     {
@@ -95,7 +92,7 @@ public class BossMissile_1 : ObjectPool, ISkill
 
         float t = 0f;
 
-        Vector2 handle1 = (Random.onUnitSphere * 30.0f) + transform.position;        
+        Vector2 handle1 = (Random.onUnitSphere * 50.0f) + transform.position;        
         Vector3 p1;
         Vector3 p2;   
         
@@ -106,9 +103,8 @@ public class BossMissile_1 : ObjectPool, ISkill
             bezierPoint = Vector3.Lerp(p1, p2, t);            
 
             pro.SetMoveTarget(bezierPoint, IProjectile.ProjectileSpeedMode.Acceleration);
-            t += Time.deltaTime * 1.5f;
+            t += Time.deltaTime;
             yield return null;
         }
     }
-
 }

@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -50207851
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.8867924, g: 0.5691033, b: 0.17986828, a: 1}
@@ -116,8 +116,7 @@ MonoBehaviour:
   targetObject: {fileID: 0}
   targetPoint: {x: 0, y: 0, z: 0}
   projectileRigidbody: {fileID: 2570829948963495425}
-  speed: 5
-  maxSpeed: 20
+  maxSpeed: 30
   lifeTime: 5
 --- !u!50 &2570829948963495425
 Rigidbody2D:

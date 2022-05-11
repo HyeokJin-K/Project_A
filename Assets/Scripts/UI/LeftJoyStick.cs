@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class LeftJoyStick : JoyStick
 {
+    #region Public Field
     public GameObject playerMoveDirObject;
-        
-    
+    #endregion
+
+    //------------------------------------------------------------------------------------------------
+
     void ResetPosDirObjectPos()
     {
         playerMoveDirObject.transform.localPosition = Vector2.zero;

@@ -5,13 +5,19 @@ using UnityEngine;
 
 public class MapSetArray : MonoBehaviour
 {
+    #region Public Field
     public Transform playerTransform;
     public GameObject[] mapObjectArray; // [1]ºÏ [4]Áß¾Ó [3]¼­ [5]µ¿ [7]ºÏ
+    #endregion
 
-
+    #region Private Field
     Vector2 centerPos;
     float tileHalfSize;
+    #endregion
 
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         tileHalfSize = Mathf.Abs(mapObjectArray[4].transform.position.x - mapObjectArray[5].transform.position.x) * 0.5f;
@@ -21,6 +27,7 @@ public class MapSetArray : MonoBehaviour
     {
         MoveSetTile();
     }
+    #endregion
 
     public void MoveSetTile()   //  ¸ÊÀÇ Áß¾Ó¿¡¼­ ¹þ¾î³µÀ» ¶§ ¸Ê Àç¹èÄ¡ (¹«ÇÑ¸Ê)
     {

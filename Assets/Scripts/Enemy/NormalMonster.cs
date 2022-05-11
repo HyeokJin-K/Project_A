@@ -4,23 +4,23 @@ using UnityEngine;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-public class NormalMonster : Monster, IDamageable
-{            
+public class NormalMonster : Monster, IDamageable, IMoveable
+{
+
+    //------------------------------------------------------------------------------------------------
+
+    #region Unity LifeCycle
     private void Awake()
     {
         #region Caching
         monsterRigidbody = GetComponent<Rigidbody2D>();
         targetObject = GameObject.FindWithTag("Player");
         #endregion
-    }    
-    
-    private void FixedUpdate()
-    {
-        Move();
     }
+    #endregion
 
-    #region ActionMethod
-    protected void Move()
+    #region MonsterActionMethod
+    public void Move()
     {
         monsterRigidbody.velocity = (targetObject.transform.position - transform.position).normalized * monsterData.MoveSpeed;        
     }
