@@ -6,13 +6,19 @@ using UnityEngine;
 public class BossMonster : Monster, IDamageable
 {
     #region Event
+
     public event Action OnBossIdleState;
+
     public event Action OnBossMoveState;
+
     public event Action OnBossAttackState;
+
     public event Action OnBossPhaseChange;
+
     #endregion
 
     #region Public Field
+
     public enum BossState
     {
         Idle,
@@ -21,6 +27,7 @@ public class BossMonster : Monster, IDamageable
     }
 
     BossState state = BossState.Idle;
+
     public BossState State
     {
         get
@@ -30,37 +37,63 @@ public class BossMonster : Monster, IDamageable
         set
         {
             state = value;
+
             switch (state)
             {
                 case BossState.Idle:
+
                     OnBossIdleState?.Invoke();
+
                     break;
+
                 case BossState.Move:
+
                     OnBossMoveState?.Invoke();
+
                     break;
+
                 case BossState.Attack:
+
                     OnBossAttackState?.Invoke();
+
                     break;
             }
         }
     }
+
     #endregion
 
     #region Private Field
+
     [SerializeField, ReadOnly]
     List<GameObject> currentSkillList = new List<GameObject>();
 
     int currentPhase = 1;
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
+
     private void Awake()
     {
+        #region Caching
+
+        targetObject = GameObject.FindWithTag("Player");
+
+        #endregion
+
         SetSkillList(); //  최초 스킬 초기화
-        OnBossPhaseChange += SetSkillList;
+
+        OnBossPhaseChange += SetSkillList;        
     }
+
+    private void FixedUpdate()
+    {
+        Move();    
+    }
+
     #endregion
 
     void Idle()
@@ -69,7 +102,7 @@ public class BossMonster : Monster, IDamageable
 
     void Move()
     {
-
+        monsterRigidbody.velocity = (targetObject.transform.position - transform.position).normalized * monsterData.MoveSpeed;
     }
 
     void Attack()
@@ -82,10 +115,13 @@ public class BossMonster : Monster, IDamageable
         if (currentPhase < transform.childCount)
         {
             transform.GetChild(currentPhase - 1).gameObject.SetActive(false);
+
             ++currentPhase;
+
             transform.GetChild(currentPhase - 1).gameObject.SetActive(true);
 
             OnBossPhaseChange?.Invoke();
+
             print("페이즈 변경");
         }
         else
@@ -99,6 +135,7 @@ public class BossMonster : Monster, IDamageable
         currentSkillList.Clear();
 
         Transform phase = transform.GetChild(currentPhase - 1);
+
         for (int i = 0; i < phase.childCount; i++)
         {
             currentSkillList.Add(phase.GetChild(i).gameObject);

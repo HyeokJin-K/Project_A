@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class Monster : MonoBehaviour
 {
     #region Public Field
+
     public float CurrentHp
     {
         get
@@ -21,33 +22,44 @@ public abstract class Monster : MonoBehaviour
             }
         }
     }
+
     #endregion
 
     #region Private Field
+
     [SerializeField, ReadOnly]
     bool isNormalAttackReady = true;
+
     #endregion
 
     #region Protected Field
+
     [SerializeField]
     protected Rigidbody2D monsterRigidbody;
+
     [SerializeField]
     protected MonsterData monsterData;
+
     [SerializeField, ReadOnly]
     protected float currentHp;
+
     [SerializeField]
     protected GameObject targetObject;
+
     protected IDamageable playerIDamageable;
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             playerIDamageable = collision.gameObject.GetComponent<IDamageable>();
+
             StartCoroutine(NormalAttack());
         }
     }
@@ -58,12 +70,8 @@ public abstract class Monster : MonoBehaviour
         {
             playerIDamageable = null;
         }
-    }
+    }    
 
-    protected void OnEnable()
-    {
-        currentHp = monsterData.HealthPoint;
-    }
     #endregion
 
     IEnumerator NormalAttack()     //  피격 공격
@@ -73,12 +81,16 @@ public abstract class Monster : MonoBehaviour
             if (isNormalAttackReady)
             {
                 playerIDamageable.TakeDamage(monsterData.AttackPower);
+
                 isNormalAttackReady = false;
+
                 StartCoroutine(WaitNormalAttackDelay());
             }
+
             yield return null;
         }
     }
+
     protected IEnumerator WaitNormalAttackDelay()      //  피격 공격의 쿨타임
     {
         float t = 0;
@@ -86,10 +98,12 @@ public abstract class Monster : MonoBehaviour
         while (t <= monsterData.AttackDelay)
         {
             t += Time.deltaTime;
+
             yield return null;
         }
 
         isNormalAttackReady = true;
     }
+
     protected abstract void Die();    
 }

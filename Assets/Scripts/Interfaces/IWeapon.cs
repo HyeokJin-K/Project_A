@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IWeapon
 {
     int WeaponLevel { get; set; }
+
     float WeaponExp { get; set; }
 
     List<GameObject> SkillList { get; set; }

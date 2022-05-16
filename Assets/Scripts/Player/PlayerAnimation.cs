@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     #region Public Field
+
     public Vector2 PlayerMoveDir
     {
         get
@@ -26,34 +27,47 @@ public class PlayerAnimation : MonoBehaviour
             }
         }
     }
+
     #endregion
 
     #region Private Field
+
     [SerializeField]
     Player playerScript;
+
     [SerializeField]
     Animator playerAnimator;
+
     [SerializeField]
     SpriteRenderer playerSpriteRenderer;
 
     Vector2 playerMoveDir;
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
+
     private void Awake()
     {
         #region Caching
+
         playerScript = playerScript == null ? GetComponent<Player>() : playerScript;
+
         playerAnimator = playerAnimator == null ? GetComponent<Animator>() : playerAnimator;
+
         playerSpriteRenderer = playerSpriteRenderer == null ? GetComponent<SpriteRenderer>() : playerSpriteRenderer;
+
         #endregion
 
         playerScript.OnPlayerMove += SetMoveValue;
+
         playerScript.OnPlayerMove += () => playerAnimator.SetBool("IsMove", true);
+
         playerScript.OnPlayerMoveStop += () => playerAnimator.SetBool("IsMove", false);
     }
+
     #endregion
 
     public void SetMoveValue()  //  플레이어 애니메이션 조정에 필요한 값 초기화

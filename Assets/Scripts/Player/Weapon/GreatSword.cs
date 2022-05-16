@@ -5,6 +5,7 @@ using UnityEngine;
 public class GreatSword : MeleeWeapon, IWeapon
 {
     #region Public Field
+
     public float AttackRange
     {
         get
@@ -17,7 +18,9 @@ public class GreatSword : MeleeWeapon, IWeapon
             gameObject.transform.localScale = new Vector2(attackRange, attackRange);
         }
     }
+
     public List<GameObject> SkillList { get => currentSkillList; set => currentSkillList = value; }
+
     public float WeaponExp
     {
         get => weaponExp;
@@ -26,15 +29,22 @@ public class GreatSword : MeleeWeapon, IWeapon
             weaponExp = value;
         }
     }
+
     public int WeaponLevel { get => weaponLevel; set => weaponLevel = value; }
+
     #endregion
 
     #region Private Field
+
     [SerializeField, ReadOnly]
     List<GameObject> currentSkillList;
+
     int weaponLevel;
+
     float weaponExp;
+
     bool isWeaponInput = false;
+
     #endregion
     
     //------------------------------------------------------------------------------------------------
@@ -49,6 +59,7 @@ public class GreatSword : MeleeWeapon, IWeapon
             }         
 
             isNormalAttackReady = false;
+
             StartCoroutine(WaitNormalAttackDelay());
         }
     }

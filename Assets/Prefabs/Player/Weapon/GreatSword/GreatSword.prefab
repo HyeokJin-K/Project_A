@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7545570313788792090}
-  - component: {fileID: 7545570313788792091}
   - component: {fileID: 1907175781311170966}
+  - component: {fileID: 7545570313788792091}
   - component: {fileID: 1706257364208079675}
   m_Layer: 0
   m_Name: GreatSword
@@ -33,6 +33,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1907175781311170966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7545570313788792088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc914033da10d943a48d78ee00ac960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 0
+  attackDelay: 0
+  attackRange: 0
+  isNormalAttackReady: 0
+  colEnemyList: []
+  currentSkillList: []
 --- !u!212 &7545570313788792091
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -84,22 +102,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1907175781311170966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7545570313788792088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dc914033da10d943a48d78ee00ac960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPower: 0
-  attackDelay: 0
-  attackRange: 0
-  colSize: {x: 0, y: 0, z: 0}
 --- !u!61 &1706257364208079675
 BoxCollider2D:
   m_ObjectHideFlags: 0

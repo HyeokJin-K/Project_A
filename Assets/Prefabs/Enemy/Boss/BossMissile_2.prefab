@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5034616547781977589}
+  - component: {fileID: 1778957941829674925}
   - component: {fileID: 5922589443474897516}
   - component: {fileID: 705691246398174258}
-  - component: {fileID: 1778957941829674925}
   - component: {fileID: 2570829948963495425}
   m_Layer: 0
   m_Name: BossMissile_2
@@ -34,6 +34,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1778957941829674925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8028916617615299830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2978cd5e9e2966346b99d3b32212ff94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
+  targetPoint: {x: 0, y: 0, z: 0}
+  projectileRigidbody: {fileID: 2570829948963495425}
+  maxSpeed: 30
+  lifeTime: 5
 --- !u!212 &5922589443474897516
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -101,23 +118,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &1778957941829674925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028916617615299830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2978cd5e9e2966346b99d3b32212ff94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObject: {fileID: 0}
-  targetPoint: {x: 0, y: 0, z: 0}
-  projectileRigidbody: {fileID: 2570829948963495425}
-  maxSpeed: 30
-  lifeTime: 5
 --- !u!50 &2570829948963495425
 Rigidbody2D:
   serializedVersion: 4

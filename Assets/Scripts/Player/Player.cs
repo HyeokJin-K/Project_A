@@ -6,11 +6,15 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable, IMoveable
 {
     #region Event
+
     public event Action OnPlayerMove;
+
     public event Action OnPlayerMoveStop;
+
     #endregion
 
     #region Public Field
+
     public enum PlayerAction
     {
         Idle,
@@ -18,9 +22,13 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
         Attack,
         Dead
     }
+
     public GameObject playerAttackDirObject;
+
     public GameObject playerMoveDirObject;
+
     public Rigidbody2D playerRigidbody;
+
     public float Hp
     {
         get
@@ -32,6 +40,7 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
             hp = value;
         }
     }
+
     public float DefensePower
     {
         get
@@ -43,6 +52,7 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
             defensePower = value;
         }
     }
+
     public Vector3 MoveDir
     {
         get
@@ -53,7 +63,7 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
         {
             moveDir = value;
 
-            if (moveDir != Vector3.zero)
+            if (moveDir.sqrMagnitude != 0f)
             {
                 OnPlayerMove?.Invoke();
             }
@@ -63,9 +73,13 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
             }
         }
     }
+
+    public Vector3 AttackDir => (playerAttackDirObject.transform.position - transform.position).normalized;
+
     #endregion    
 
     #region Private Field
+
     [SerializeField, Tooltip("체력")]
     float hp;
 
@@ -75,23 +89,32 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
     [SerializeField, Tooltip("이동속도")]
     float moveSpeed;
 
+    [SerializeField, ReadOnly]
     Vector3 moveDir;
+
+    [SerializeField, ReadOnly]
+    Vector3 attackDir;
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
+
     private void Awake()
     {
         #region Caching
+
         playerRigidbody = GetComponent<Rigidbody2D>();
+
         #endregion
     }
 
     private void FixedUpdate()
     {
-        Move();
+        Move();        
     }
+
     #endregion
 
     public void Idle()
@@ -102,11 +125,17 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
     public void Move()
     {
         MoveDir = (playerMoveDirObject.transform.position - transform.position).normalized;
-        playerRigidbody.velocity = moveDir * moveSpeed;        
+
+        playerRigidbody.velocity = moveDir * moveSpeed;          
     }
 
     public void TakeDamage(float damageValue)
     {
         hp -= damageValue;
+    }
+
+    public Vector3 GetMoveDir()
+    {
+        return (playerMoveDirObject.transform.position - transform.position).normalized;
     }
 }

@@ -5,32 +5,42 @@ using UnityEngine;
 public class Projectile : MonoBehaviour, IProjectile
 {
     #region Private Field
+
     [SerializeField, ReadOnly]
     GameObject targetObject;
+
     [SerializeField, ReadOnly]
     Vector3 targetPoint;
 
     Vector3 moveDir;
+
     [SerializeField]
     Rigidbody2D projectileRigidbody;    
 
     IProjectile.ProjectileSpeedMode speedMode = IProjectile.ProjectileSpeedMode.Normal;    
 
     float speed;
+
     [SerializeField]
     float maxSpeed = 20f;
+
     float power;
+
     [SerializeField]
     float lifeTime;
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
+
     private void Awake()
     {
         #region Caching
+
         projectileRigidbody = projectileRigidbody == null ? GetComponent<Rigidbody2D>() : projectileRigidbody;
+
         #endregion
     }
 
@@ -48,10 +58,12 @@ public class Projectile : MonoBehaviour, IProjectile
     {
         if (collision.CompareTag(targetObject.tag))
         {
-            collision.GetComponent<IDamageable>()?.TakeDamage(power);            
+            collision.GetComponent<IDamageable>()?.TakeDamage(power);
+            
             gameObject.SetActive(false);
         }
     }
+
     #endregion
 
     IEnumerator ProjectileLifeEnd()     //  탄막의 라이프 타임이 0이 되면 탄막 오브젝트 비활성화
@@ -61,6 +73,7 @@ public class Projectile : MonoBehaviour, IProjectile
         while (temp >= 0)
         {
             temp -= Time.deltaTime;
+
             yield return null;
         }
         
@@ -70,7 +83,9 @@ public class Projectile : MonoBehaviour, IProjectile
     public void SetProjectileValue(float speed, float power, float lifeTime) 
     {
         this.speed = speed;        
+
         this.power = power;
+
         this.lifeTime = lifeTime;        
     }
 
@@ -82,7 +97,9 @@ public class Projectile : MonoBehaviour, IProjectile
     public void SetMoveTarget(Vector3 targetPoint, IProjectile.ProjectileSpeedMode mode)    
     {
         this.speedMode = mode;
+
         this.targetPoint = targetPoint;
+
         moveDir = (this.targetPoint - transform.position).normalized;
     }
 
@@ -93,6 +110,7 @@ public class Projectile : MonoBehaviour, IProjectile
         while (t <= pathfindingTime)
         {
             t += Time.deltaTime;
+
             SetMoveTarget(targetPoint, IProjectile.ProjectileSpeedMode.Normal);
 
             yield return null;

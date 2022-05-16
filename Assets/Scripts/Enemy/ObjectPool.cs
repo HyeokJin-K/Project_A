@@ -7,10 +7,13 @@ using Random = UnityEngine.Random;
 public class ObjectPool : MonoBehaviour
 {
     #region Protected Field
+
     [SerializeField]
     protected List<GameObject> objectPool;
+
     [SerializeField]
     protected int initPoolAmount = 20;
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
@@ -20,6 +23,7 @@ public class ObjectPool : MonoBehaviour
         for(int i = 0; i < initPoolAmount; i++)
         {
             objectPool.Add(Instantiate(prefab, this.transform));
+
             objectPool[i].SetActive(false);            
         }
     }
@@ -29,8 +33,8 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < initPoolAmount; i++)
         {
             objectPool.Add(Instantiate(prefab, parent));
+
             objectPool[i].SetActive(false);
         }
     }
-
 }

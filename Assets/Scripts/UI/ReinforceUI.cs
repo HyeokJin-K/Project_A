@@ -10,17 +10,21 @@ public class ReinforceUI : MonoBehaviour
 
     #endregion
 
-    #region Private Field    
+    #region Private Field  
+    
     [SerializeField]
     GameObject[] optionSlots = new GameObject[3];    
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle    
+
     private void Awake()
     {        
     }
+
     #endregion
 
     public void SetOptionUI(string optionName, Sprite sprite)

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class MeleeWeapon : MonoBehaviour
 {
     #region Public Field
+
     public float AttackPower
     {
         get
@@ -16,25 +17,32 @@ public abstract class MeleeWeapon : MonoBehaviour
             attackPower = value;
         }
     }
+
     #endregion
 
     #region Protected Field
+
     [SerializeField]
     protected float attackPower;
+
     [SerializeField]
     protected float attackDelay;
+
     [SerializeField]
     protected float attackRange;
+
     [SerializeField, ReadOnly]
     protected bool isNormalAttackReady = true;
 
     [SerializeField, ReadOnly]
     protected List<Collider2D> colEnemyList = new List<Collider2D>();
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
+
     private void Awake()
     {
         isNormalAttackReady = true;
@@ -66,6 +74,7 @@ public abstract class MeleeWeapon : MonoBehaviour
             colEnemyList.Remove(collision);
         }
     }
+
     #endregion
 
     protected abstract void WeaponNormalAttack();      // 일반 몬스터 공격

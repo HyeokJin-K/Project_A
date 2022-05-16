@@ -8,6 +8,7 @@ TagManager:
   - Monster
   - BossMonster
   - Weapon
+  - PlayerSkill
   layers:
   - Default
   - TransparentFX

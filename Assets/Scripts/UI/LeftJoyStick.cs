@@ -5,7 +5,9 @@ using UnityEngine;
 public class LeftJoyStick : JoyStick
 {
     #region Public Field
+
     public GameObject playerMoveDirObject;
+
     #endregion
 
     //------------------------------------------------------------------------------------------------
@@ -21,6 +23,7 @@ public class LeftJoyStick : JoyStick
     }
 
     #region 조이스틱 콜백
+
     protected override void BeginDragMethod()
     {        
         ActiveMoveDirObjectPos();
@@ -35,5 +38,6 @@ public class LeftJoyStick : JoyStick
     {     
         ResetPosDirObjectPos();
     }
+
     #endregion
 }

@@ -6,7 +6,9 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     #region Public Field
+
     public ReinforceUI reinforceUI;
+
     #endregion    
 
     #region Private Field
@@ -16,15 +18,6 @@ public class UIManager : MonoBehaviour
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
-    void Start()
-    {
-        
-    }
 
-
-    void Update()
-    {
-        
-    }
     #endregion
 }

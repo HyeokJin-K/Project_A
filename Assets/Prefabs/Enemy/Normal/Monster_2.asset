@@ -15,5 +15,5 @@ MonoBehaviour:
   monsterName: NormalMonster_2
   healthPoint: 15
   attackPower: 1
-  moveSpeed: 2.5
+  moveSpeed: 2
   attackDelay: 1

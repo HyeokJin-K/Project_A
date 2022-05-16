@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7051042830285995606}
   - component: {fileID: 4214143596192005061}
   m_Layer: 0
-  m_Name: GreatSwordSkill_1
+  m_Name: WhirlWind
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,11 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48d38aecb94bf84d9fbf6a8a4f55960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSkillData: {fileID: 11400000, guid: 4467c880b0f0bcb4b9c1e9fdbd48447a, type: 2}
   skillCollider: {fileID: 4214143596192005061}
   skillTrailRenderer: {fileID: 1841832206684106820}
-  skillPower: 1
-  skillDelay: 5
-  turnCount: 0
 --- !u!61 &4214143596192005061
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -148,7 +146,7 @@ TrailRenderer:
   m_SortingLayerID: -50207851
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Time: 0.15
+  m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 4

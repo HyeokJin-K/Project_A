@@ -2,35 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerSkillData", menuName = "Scriptbale Object/PlayerSkillData", order = int.MaxValue)]
-public class PlayerSkillData : ScriptableObject
+[System.Serializable]
+public class PlayerSkillData
 {
     #region Private Field
-    [SerializeField]
-    Sprite skillSprite;
+    
     [SerializeField]
     string skillName;
-    [SerializeField]
-    float initSkillPower;
-    [SerializeField]
-    float initSkillDelay;
-    [SerializeField]
-    int initRepeatCount;
 
-    [SerializeField, ReadOnly]
+    [SerializeField]
     float skillPower;
-    [SerializeField, ReadOnly]
+
+    [SerializeField]
     float skillDelay;
-    [SerializeField, ReadOnly]
+
+    [SerializeField]
     int repeatCount;
+
     #endregion
    
 
     #region Public Field
-    public Sprite SkillSprite { get => skillSprite; }
+
     public string SkillName { get => skillName; }    
-    public float SkillPower { get => skillPower + initSkillPower; set => skillPower = value; }
-    public float SkillDelay { get => skillDelay + initSkillDelay; set => skillDelay = value; }
-    public int RepeatCount { get => repeatCount + initRepeatCount; set => repeatCount = value; }
-    #endregion
+
+    public float SkillPower { get => skillPower; }
+
+    public float SkillDelay { get => skillDelay; }
+
+    public int RepeatCount { get => repeatCount; }
+
+    #endregion        
+
+    //-------------------------------------------------------------------------------------------
+
+    public void SetPlayerSkillData(string skillName, float skillPower, float skillDelay, int repeatCount)
+    {
+        this.skillName = skillName;
+
+        this.skillPower = skillPower;
+
+        this.skillDelay = skillDelay;
+
+        this.repeatCount = repeatCount;
+    }
 }
