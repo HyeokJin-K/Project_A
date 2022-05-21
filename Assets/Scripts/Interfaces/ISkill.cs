@@ -5,6 +5,8 @@ public interface ISkill
 {
     bool IsSkillReady { get; }      // 스킬 준비 변수
 
+    bool IsSkillFinish { get; }
+
     //------------------------------------------------------------------------------------------------
 
     PlayerSkillData GetPlayerSkillData();

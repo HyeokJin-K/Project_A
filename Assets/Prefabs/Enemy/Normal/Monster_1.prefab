@@ -50,7 +50,8 @@ MonoBehaviour:
   monsterRigidbody: {fileID: -2013025092299633750}
   monsterData: {fileID: 11400000, guid: ed875013aefbb62428f2931e8e1054c3, type: 2}
   currentHp: 0
-  targetObject: {fileID: 0}
+  targetScript: {fileID: 0}
+  dropExp: 1
 --- !u!212 &75901415985386999
 SpriteRenderer:
   m_ObjectHideFlags: 0

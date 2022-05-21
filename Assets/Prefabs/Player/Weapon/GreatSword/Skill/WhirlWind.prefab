@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7591107629900450102}
   - component: {fileID: 7051042830285995606}
   - component: {fileID: 4214143596192005061}
+  - component: {fileID: 5208717548250700747}
   m_Layer: 0
   m_Name: WhirlWind
   m_TagString: Weapon
@@ -45,7 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48d38aecb94bf84d9fbf6a8a4f55960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkillData: {fileID: 11400000, guid: 4467c880b0f0bcb4b9c1e9fdbd48447a, type: 2}
+  playerSkillData:
+    skillName: 
+    skillPower: 0
+    skillDelay: 0
+    repeatCount: 0
   skillCollider: {fileID: 4214143596192005061}
   skillTrailRenderer: {fileID: 1841832206684106820}
 --- !u!61 &4214143596192005061
@@ -74,6 +79,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.25, y: 3.5}
   m_EdgeRadius: 0
+--- !u!114 &5208717548250700747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437312182731103923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48d38aecb94bf84d9fbf6a8a4f55960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSkillData:
+    skillName: 
+    skillPower: 0
+    skillDelay: 0
+    repeatCount: 0
+  skillCollider: {fileID: 0}
+  skillTrailRenderer: {fileID: 0}
 --- !u!1 &7349389514522642035
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +149,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
