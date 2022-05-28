@@ -15,9 +15,14 @@ public class Projectile : MonoBehaviour, IProjectile
     Vector3 moveDir;
 
     [SerializeField]
-    Rigidbody2D projectileRigidbody;    
+    Rigidbody2D projectileRigidbody;
 
-    IProjectile.ProjectileSpeedMode speedMode = IProjectile.ProjectileSpeedMode.Normal;    
+    [SerializeField]
+    SpriteRenderer projectileSpriteRenderer;
+
+    Color initSpirteColor;
+
+    IProjectile.ProjectileSpeedMode speedMode = IProjectile.ProjectileSpeedMode.Normal;
 
     float speed;
 
@@ -41,7 +46,11 @@ public class Projectile : MonoBehaviour, IProjectile
 
         projectileRigidbody = projectileRigidbody == null ? GetComponent<Rigidbody2D>() : projectileRigidbody;
 
+        projectileSpriteRenderer = projectileSpriteRenderer == null ? GetComponentInChildren<SpriteRenderer>() : projectileSpriteRenderer;
+
         #endregion
+
+        initSpirteColor = projectileSpriteRenderer.color;
     }
 
     private void FixedUpdate()
@@ -51,7 +60,12 @@ public class Projectile : MonoBehaviour, IProjectile
 
     private void OnEnable()
     {
-        StartCoroutine(ProjectileLifeEnd());
+        StartCoroutine(ProjectileLifeEnd());        
+    }
+
+    private void OnDisable()
+    {
+        projectileSpriteRenderer.color = initSpirteColor;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -69,7 +83,11 @@ public class Projectile : MonoBehaviour, IProjectile
     IEnumerator ProjectileLifeEnd()     //  탄막의 라이프 타임이 0이 되면 탄막 오브젝트 비활성화
     {
         yield return new WaitForSeconds(lifeTime);
-        
+
+        projectileSpriteRenderer?.DoDisable(SpriteDisableMode.Lerp);        
+
+        yield return new WaitUntil(() => projectileSpriteRenderer.color.a <= 0f);
+
         gameObject.SetActive(false);
     }
 

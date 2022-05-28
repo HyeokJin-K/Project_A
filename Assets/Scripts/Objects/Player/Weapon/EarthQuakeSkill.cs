@@ -20,13 +20,15 @@ public class EarthQuakeSkill : MonoBehaviour, ISkill
     PlayerSkillData skillData;
 
     [SerializeField]
-    BoxCollider2D[] skillColliders;
+    CircleCollider2D[] skillColliders;
 
-    [SerializeField]
+    [SerializeField, ReadOnly]
     List<GameObject> attackedEnemyList = new List<GameObject>();
 
+    [SerializeField, ReadOnly]
     bool isSkillReady = true;
 
+    [SerializeField, ReadOnly]
     bool isSkillFinish = true;
 
     #endregion
@@ -37,16 +39,18 @@ public class EarthQuakeSkill : MonoBehaviour, ISkill
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!attackedEnemyList.Contains(collision.gameObject))
+        if (attackedEnemyList.Contains(collision.gameObject))
         {
-            if(collision.CompareTag("Monster") || collision.CompareTag("BossMonster"))
-            {
-                collision.GetComponent<IDamageable>().TakeDamage(skillData.SkillPower);
-
-                attackedEnemyList.Add(collision.gameObject);                
-            }
+            return;
         }
-    }    
+
+        if (collision.CompareTag("Monster") || collision.CompareTag("BossMonster"))
+        {
+            collision.GetComponent<IDamageable>().TakeDamage(skillData.SkillPower);
+
+            attackedEnemyList.Add(collision.gameObject);
+        }
+    }
 
     #endregion
 
@@ -54,6 +58,8 @@ public class EarthQuakeSkill : MonoBehaviour, ISkill
     {
         if (isSkillReady && isSkillFinish)
         {
+            attackedEnemyList.Clear();
+
             isSkillReady = false;
 
             isSkillFinish = false;
@@ -62,28 +68,41 @@ public class EarthQuakeSkill : MonoBehaviour, ISkill
 
             StartCoroutine(WaitSkillDelay());
         }
-        else
+
+        #region Local Method
+
+        IEnumerator EarthQuake()
         {
-            print($"{this.GetType()} 쿨타임 입니다");
+            transform.localPosition = Vector3.zero;
+
+            transform.up = transform.root.GetComponentInChildren<Player>().AttackDir;
+
+            int count = -1;
+
+            foreach (var col in skillColliders)
+            {
+                col.gameObject.transform.localPosition = new Vector3(0, (count + 1) * 1.5f, 0);
+
+                col.gameObject.SetActive(true);
+
+                col.GetComponent<SpriteRenderer>().DoDisable(SpriteDisableMode.Lerp);
+
+                count++;
+
+                yield return new WaitForSeconds(0.03f);
+            }
+
+            foreach (var col in skillColliders)
+            {
+                yield return new WaitUntil(() => col.GetComponent<SpriteRenderer>().color.a <= 0f);
+
+                col.gameObject.SetActive(false);
+            }
+
+            isSkillFinish = true;
         }
-    }
 
-    IEnumerator EarthQuake()
-    {
-        transform.localPosition = Vector3.zero;
-
-        transform.up = transform.root.GetComponentInChildren<Player>().AttackDir;
-
-        foreach(var col in skillColliders)
-        {            
-            col.gameObject.SetActive(true);
-
-            col.GetComponent<SpriteRenderer>().DoDisable(1f, SpriteDisableMode.Lerp);
-
-            yield return new WaitForSeconds(0.05f);
-        }
-
-        isSkillFinish = true;
+        #endregion
     }    
 
     public PlayerSkillData GetPlayerSkillData()
@@ -100,8 +119,6 @@ public class EarthQuakeSkill : MonoBehaviour, ISkill
     {
         yield return new WaitForSeconds(skillData.SkillDelay);
 
-        isSkillReady = true;
-
-        attackedEnemyList.Clear();
+        isSkillReady = true;        
     }
 }

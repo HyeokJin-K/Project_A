@@ -38,7 +38,7 @@ public class MapSetArray : MonoBehaviour
 
     #endregion
 
-    public void MoveSetTile()   //  ¸ÊÀÇ Áß¾Ó¿¡¼­ ¹þ¾î³µÀ» ¶§ ¸Ê Àç¹èÄ¡ (¹«ÇÑ¸Ê)
+    void MoveSetTile()   //  ¸ÊÀÇ Áß¾Ó¿¡¼­ ¹þ¾î³µÀ» ¶§ ¸Ê Àç¹èÄ¡ (¹«ÇÑ¸Ê)
     {
         //                              mapObjectArray,  CopyMapArray
         //  [0][1][2]    [2][0][1]      ±âÁ¸ 2,5,8Àº 0,3,6ÀÚ¸®·Î ¿Å±ä´Ù

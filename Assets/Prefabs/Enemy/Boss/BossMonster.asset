@@ -15,5 +15,5 @@ MonoBehaviour:
   monsterName: Boss_1
   healthPoint: 100
   attackPower: 3
-  moveSpeed: 0.9
+  moveSpeed: 0.85
   attackDelay: 1

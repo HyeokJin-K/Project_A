@@ -19,7 +19,7 @@ public class PlayerSkillManager : MonoBehaviour
     List<Dictionary<string, object>> skillDataTable = new List<Dictionary<string, object>>();
 
     [SerializeField]
-    GameObject playerSkillPoolObject;
+    GameObject playerSkillSlotObject;
 
     #endregion
 
@@ -37,13 +37,13 @@ public class PlayerSkillManager : MonoBehaviour
         }
     }
 
-    float tt = 10;
+    float tt = 0f;
 
     private void Update()
     {        
         tt += Time.deltaTime;
 
-        if(tt >= 2f)
+        if(tt >= 1f)
         {
             tt = 0f;
 
@@ -56,7 +56,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     #endregion
 
-    void InitSkillDataFromCSV(PlayerSkillData skillData, string skillName)
+    void InitSkillDataFromCSV(PlayerSkillData skillData, string skillName)      //  스킬 데이터들을 CSV 스킬 데이터 값들로 초기화
     {
         foreach (var tableData in skillDataTable)
         {
@@ -70,7 +70,7 @@ public class PlayerSkillManager : MonoBehaviour
         }
     }
 
-    public void AddNewPlayerSkill(string name)
+    public void AddNewPlayerSkill(string name)      // 현재 플레이어 스킬 목록에 해당 스킬 추가
     {            
         foreach(var skill in playerSkillList)
         {
@@ -78,7 +78,7 @@ public class PlayerSkillManager : MonoBehaviour
             
             if (name.Equals(skillName))
             {
-                GameObject skillOb = Instantiate(skill, playerSkillPoolObject.transform);
+                GameObject skillOb = Instantiate(skill, playerSkillSlotObject.transform);
 
                 skillOb.name = skillName;
 
@@ -91,7 +91,7 @@ public class PlayerSkillManager : MonoBehaviour
         }
     }
 
-    public void RemovePlayerSkill(string name)
+    /*public void RemovePlayerSkill(string name)
     {
         foreach(var skill in currentPlayerSkillList)
         {
@@ -106,9 +106,9 @@ public class PlayerSkillManager : MonoBehaviour
                 break;
             }
         }
-    }
+    }*/
 
-    public List<string> GetCurrentSkillNameList()
+    /*public List<string> GetCurrentSkillNameList()
     {
         List<string> skillNameList = new List<string>();
 
@@ -118,5 +118,5 @@ public class PlayerSkillManager : MonoBehaviour
         }
 
         return skillNameList;
-    }
+    }*/
 }

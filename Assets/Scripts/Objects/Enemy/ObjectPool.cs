@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
     #region Protected Field
 
     [SerializeField]
-    protected List<GameObject> objectPool;
+    protected List<GameObject> objectList;
 
     [SerializeField]
     protected int initPoolAmount = 20;
@@ -22,9 +22,9 @@ public class ObjectPool : MonoBehaviour
     {        
         for(int i = 0; i < initPoolAmount; i++)
         {
-            objectPool.Add(Instantiate(prefab, this.transform));
+            objectList.Add(Instantiate(prefab, this.transform));
 
-            objectPool[i].SetActive(false);            
+            objectList[i].SetActive(false);            
         }
     }
 
@@ -32,9 +32,9 @@ public class ObjectPool : MonoBehaviour
     {
         for (int i = 0; i < initPoolAmount; i++)
         {
-            objectPool.Add(Instantiate(prefab, parent));
+            objectList.Add(Instantiate(prefab, parent));
 
-            objectPool[i].SetActive(false);
+            objectList[i].SetActive(false);
         }
     }
 }

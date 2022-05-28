@@ -77,7 +77,7 @@ public abstract class MeleeWeapon : MonoBehaviour
 
     #endregion
 
-    protected abstract void WeaponNormalAttack();      // 일반 몬스터 공격
+    protected abstract void WeaponNormalAttack();
 
     protected IEnumerator WaitNormalAttackDelay()
     {

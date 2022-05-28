@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IDamageable, IMoveable
 {
@@ -31,15 +32,17 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
 
     public Rigidbody2D playerRigidbody;
 
-    public float Hp
+    public float CurrentHP
     {
         get
         {
-            return hp;
+            return currentHP;
         }
         set
         {
-            hp = value;
+            currentHP = value;
+
+            hpUI.fillAmount = currentHP / maxHP;
         }
     }
 
@@ -110,13 +113,19 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
 
     Dictionary<int, int> levelTable = new Dictionary<int, int>();
 
-    [SerializeField, Tooltip("체력")]
-    float hp;
+    [SerializeField]
+    Image hpUI;
 
-    [SerializeField, Tooltip("방어력")]
+    [SerializeField]
+    float maxHP;
+
+    [SerializeField, ReadOnly]
+    float currentHP;
+
+    [SerializeField]
     float defensePower;
 
-    [SerializeField, Tooltip("이동속도")]
+    [SerializeField]
     float moveSpeed;
 
     [SerializeField, ReadOnly]
@@ -144,6 +153,8 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
         playerRigidbody = GetComponent<Rigidbody2D>();
 
         #endregion
+
+        currentHP = maxHP;
 
         List<Dictionary<string, object>> dataList = CSVReader.Read("DataTable/PlayerLevelDataTable");
 
@@ -174,7 +185,7 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
 
     public void TakeDamage(float damageValue)
     {
-        hp -= damageValue;
+        CurrentHP -= damageValue;
     }
 
     public Vector3 GetMoveDir()

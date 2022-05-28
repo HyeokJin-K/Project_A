@@ -4,21 +4,25 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public abstract class JoyStick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    #region Public Field
+    #region Public Field    
 
     public RectTransform lever;
+
+    public Sprite normalLeverSprite;
+
+    public Sprite dirLeverSprite;
 
     #endregion
 
     #region Private Field
+        
+    Image currentLeverImage;
 
     Vector3 leverPos;
 
     float sizeX;
-
-    float sizeXRate;
 
     #endregion
 
@@ -30,10 +34,10 @@ public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler,
     {
         #region Caching
 
-        sizeX = gameObject.GetComponent<Image>().sprite.rect.width;
+        currentLeverImage = lever.GetComponent<Image>();
 
-        sizeXRate = gameObject.GetComponent<RectTransform>().rect.width / sizeX;
-
+        sizeX = gameObject.GetComponent<RectTransform>().rect.width;
+                
         #endregion
     }
 
@@ -41,28 +45,43 @@ public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     #region DragEvent Method
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
-        BeginDragMethod();
+        currentLeverImage.sprite = dirLeverSprite;
+
+        MoveLever(eventData);
+
+        BeginDragMethod();        
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 currentLeverPos = eventData.position - (Vector2)gameObject.transform.position;      // 현재 레버의 로컬 좌표
-
-        leverPos = currentLeverPos.magnitude < (sizeX - 5f) * sizeXRate * 0.5f ? currentLeverPos :  //  중심에서 현재 현재 위치까지의 거리 값으로 레버 이동 범위 제한
-                                                        currentLeverPos.normalized * (sizeX - 5f) * sizeXRate * 0.5f;
-
-        lever.localPosition = leverPos;
+        MoveLever(eventData);
 
         DragMethod();
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)
     {
+        currentLeverImage.sprite = normalLeverSprite;
+
         lever.localPosition = Vector2.zero;
 
+        lever.transform.up = Vector2.up;
+
         EndDragMethod();
+    }
+
+    void MoveLever(PointerEventData eventData)
+    {
+        Vector2 currentLeverPos = eventData.position - (Vector2)gameObject.transform.position;      // 현재 레버의 로컬 좌표
+
+        leverPos = currentLeverPos.magnitude < sizeX * 0.5f - 5f ? currentLeverPos :  //  중심에서 현재 현재 위치까지의 거리 값으로 레버 이동 범위 제한
+                                                        currentLeverPos.normalized * (sizeX * 0.5f - 5f);
+
+        lever.localPosition = leverPos;
+
+        lever.transform.up = currentLeverPos.normalized;
     }
 
     #endregion
@@ -71,6 +90,5 @@ public abstract class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     protected abstract void DragMethod();
 
-    protected abstract void EndDragMethod();
-
+    protected abstract void EndDragMethod();    
 }

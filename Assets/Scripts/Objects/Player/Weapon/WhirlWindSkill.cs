@@ -73,13 +73,10 @@ public class WhirlWindSkill : MonoBehaviour, ISkill
 
             StartCoroutine(WaitSkillDelay());
         }
-        else
-        {
-            print("쿨타임입니다");
-        }
-    }
 
-    IEnumerator TurnCollider()
+        #region Local Method
+
+        IEnumerator TurnCollider()
     {
         skillCollider.enabled = true;
 
@@ -114,6 +111,9 @@ public class WhirlWindSkill : MonoBehaviour, ISkill
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
         isSkillFinish = true;
+    }
+
+        #endregion
     }
 
     public IEnumerator WaitSkillDelay()

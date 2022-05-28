@@ -8,7 +8,20 @@ public class NormalMonster : Monster, IDamageable, IMoveable
 {
     #region Public Field
 
-    public float dropExp;
+    public float dropExp;  
+    
+    public Vector3 MoveDir
+    {
+        get => moveDir;        
+    }
+
+    #endregion
+
+    #region Private Field
+
+    Vector3 moveDir;
+
+    float cameraVertexMagnitude;
 
     #endregion
 
@@ -24,7 +37,9 @@ public class NormalMonster : Monster, IDamageable, IMoveable
 
         targetScript = GameObject.FindWithTag("Player").GetComponent<Player>();
 
-        #endregion
+        #endregion        
+
+        cameraVertexMagnitude = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane)).sqrMagnitude;
     }
 
     protected void OnEnable()
@@ -34,20 +49,28 @@ public class NormalMonster : Monster, IDamageable, IMoveable
 
     #endregion
 
-    #region MonsterActionMethod
-
     public void Move()
     {
-        monsterRigidbody.velocity = (targetScript.transform.position - transform.position).normalized * monsterData.MoveSpeed;
-    }
+        moveDir = (targetScript.transform.position - transform.position).normalized;        
+
+        if((targetScript.transform.position - transform.position).sqrMagnitude > cameraVertexMagnitude * 2.5f)
+        {
+            monsterRigidbody.velocity = moveDir * 10f;
+        }
+        else
+        {
+            monsterRigidbody.velocity = moveDir * monsterData.MoveSpeed;    
+        }
+    }    
+
     protected override void Die()
     {
+        StopAllCoroutines();        
+
         targetScript.Exp += dropExp;
 
         gameObject.SetActive(false);
     }
-
-    #endregion
 
     public void TakeDamage(float damageValue)
     {
@@ -56,6 +79,6 @@ public class NormalMonster : Monster, IDamageable, IMoveable
 
     public Vector3 GetMoveDir()
     {
-        return (targetScript.transform.position - transform.position).normalized + transform.position;
+        return MoveDir;
     }
 }

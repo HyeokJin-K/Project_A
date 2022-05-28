@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 
     public ReinforceUI reinforceUI;
 
+    public List<HealthPointUI> hpUIObjectList;
+
     #endregion    
 
     #region Private Field

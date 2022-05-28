@@ -19,10 +19,10 @@ public class StaticCoroutine : MonoBehaviour
 
     #region Unity LifeCycle
 
-    void Start()
+    void Awake()
     {
         if (instance)
-        {
+        {            
             Destroy(gameObject);
         }
         else
@@ -31,10 +31,10 @@ public class StaticCoroutine : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion    
 
     public void StartStaticCoroutine(IEnumerator coroutine)
-    {
+    {        
         StartCoroutine(coroutine);
     }
 }

@@ -2,23 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class BossMonster : Monster, IDamageable
+public class BossMonster : Monster, IDamageable, IMoveable
 {
-    #region Event
-
-    public event Action OnBossIdleState;
-
-    public event Action OnBossMoveState;
-
-    public event Action OnBossAttackState;
-
-    public event Action OnBossPhaseChange;
-
-    #endregion
-
-    #region Public Field
-
     public enum BossState
     {
         Idle,
@@ -26,37 +14,59 @@ public class BossMonster : Monster, IDamageable
         Attack
     }
 
-    BossState state = BossState.Idle;
+    #region Event
+
+    public event Action OnBossMove;
+
+    public event Action OnBossMoveStop;
+
+    public event Action OnBossPhaseChange;
+
+    Action OnBossStateChange;
+
+    #endregion
+
+    #region Public Field        
 
     public BossState State
     {
-        get
-        {
-            return state;
-        }
-        set
+        get => state;
+        private set
         {
             state = value;
 
-            switch (state)
+            OnBossStateChange?.Invoke();
+        }
+    }
+
+    public override float CurrentHp 
+    { 
+        get => base.CurrentHp;
+        set 
+        { 
+            base.CurrentHp = value;
+
+            hpUI.fillAmount = currentHp / MaxHp;
+        }
+    }
+
+    public Vector3 MoveDir
+    {
+        get
+        {
+            return moveDir;
+        }
+        private set
+        {
+            moveDir = value;
+
+            if(moveDir.sqrMagnitude != 0f)
             {
-                case BossState.Idle:
-
-                    OnBossIdleState?.Invoke();
-
-                    break;
-
-                case BossState.Move:
-
-                    OnBossMoveState?.Invoke();
-
-                    break;
-
-                case BossState.Attack:
-
-                    OnBossAttackState?.Invoke();
-
-                    break;
+                OnBossMove?.Invoke();
+            }
+            else
+            {
+                OnBossMoveStop?.Invoke();
             }
         }
     }
@@ -66,9 +76,25 @@ public class BossMonster : Monster, IDamageable
     #region Private Field
 
     [SerializeField, ReadOnly]
+    BossState state = BossState.Idle;
+
+    [SerializeField]
+    Image hpUI;
+
+    [SerializeField, ReadOnly]
     List<GameObject> currentSkillList = new List<GameObject>();
 
+    [SerializeField]
+    float minWarpDistance;
+
+    [SerializeField]
+    GameObject phaseObject;
+
     int currentPhase = 1;
+
+    Dictionary<string, List<GameObject>> stateSkills = new Dictionary<string, List<GameObject>>();
+
+    Vector3 moveDir;    
 
     #endregion
 
@@ -82,36 +108,147 @@ public class BossMonster : Monster, IDamageable
 
         targetScript = GameObject.FindWithTag("Player").GetComponent<Player>();
 
+        phaseObject = phaseObject == null ? transform.Find("PhaseList").gameObject : phaseObject;
+
         #endregion
 
         SetSkillList(); //  최초 스킬 초기화
 
-        OnBossPhaseChange += SetSkillList;        
-    }
+        OnBossPhaseChange += SetSkillList;
 
-    private void FixedUpdate()
-    {
-        Move();    
+        OnBossStateChange += CheckState;
+        
+        foreach(var state in Enum.GetValues(typeof(BossState)))
+        {            
+            stateSkills.Add(state.ToString(), new List<GameObject>());
+        }
+
+        State = BossState.Idle;
     }
 
     #endregion
 
+    #region Boss FSM
+
     void Idle()
     {
+        State = BossState.Move;
+
+        #region Local Method
+        
+
+        #endregion
     }
 
-    void Move()
+    public void Move()
     {
-        monsterRigidbody.velocity = (targetScript.transform.position - transform.position).normalized * monsterData.MoveSpeed;
+        StartCoroutine(DoMove());
+
+        #region Local Method
+
+        IEnumerator DoMove()
+        {
+            float doMoveDurationTime = Random.Range(5f, 8f);
+
+            while(state == BossState.Move)
+            {
+                if (targetScript == null)
+                {
+                    break;
+                }                
+
+                if(doMoveDurationTime <= 0f)
+                {
+                    break;
+                }
+
+                MoveDir = (targetScript.transform.position - transform.position).normalized;
+
+                monsterRigidbody.velocity = MoveDir * monsterData.MoveSpeed;
+
+                Warp(true);
+
+                doMoveDurationTime -= Time.deltaTime;
+
+                yield return null;
+            }
+
+            MoveDir = Vector3.zero;
+
+            monsterRigidbody.velocity = Vector3.zero;
+
+            State = BossState.Attack;
+        }
+
+        #endregion
     }
 
     void Attack()
     {
+        StartCoroutine(DoSkillAtack());
+
+        #region Local Method
+
+        IEnumerator DoSkillAtack()
+        {
+            List<BossAttackPattern> patternList = new List<BossAttackPattern>();
+
+            foreach(var skill in currentSkillList)
+            {
+                BossAttackPattern pattern = skill.GetComponent<BossAttackPattern>();
+
+                if (pattern.isSkillReady)
+                {
+                    patternList.Add(pattern);
+                }                
+            }
+
+            int a = Random.Range(0, patternList.Count);
+
+            patternList[a].DoAttackPattern();
+
+            print(patternList[a].name + " 실행됨");
+
+            GetComponent<BossAnimation>().TurnOnMissileAttackTrigger();
+
+            yield return new WaitForSeconds(1.0f);
+
+            State = BossState.Idle;
+        }
+
+        #endregion
+    }
+
+    #endregion    
+
+    protected override void Die()
+    {
 
     }
 
-    void PhaseChange()  //  보스 페이즈 변경
+    void CheckState()
     {
+        switch (state)
+        {
+            case BossState.Idle:
+                Idle();
+
+                break;
+
+            case BossState.Move:
+                Move();
+
+                break;
+
+            case BossState.Attack:
+                Attack();
+
+                break;
+        }        
+    }
+
+    void PhaseChange()  //  보스 페이즈 변경
+    {        
         if (currentPhase < transform.childCount)
         {
             transform.GetChild(currentPhase - 1).gameObject.SetActive(false);
@@ -134,11 +271,30 @@ public class BossMonster : Monster, IDamageable
     {
         currentSkillList.Clear();
 
-        Transform phase = transform.GetChild(currentPhase - 1);
+        Transform phase = phaseObject.transform.GetChild(currentPhase - 1);
 
         for (int i = 0; i < phase.childCount; i++)
         {
             currentSkillList.Add(phase.GetChild(i).gameObject);
+        }
+    }    
+
+    public void Warp(bool isCheckDistance)
+    {
+        float randomAngleValue = Random.Range(0f, 360f) * Mathf.Rad2Deg;        
+
+        Vector3 randomVector = new Vector3(Mathf.Cos(randomAngleValue), Mathf.Sin(randomAngleValue));        
+
+        if (isCheckDistance)
+        {
+            if((targetScript.transform.position - transform.position).sqrMagnitude >= minWarpDistance * minWarpDistance)
+            {
+                transform.position = targetScript.transform.position + randomVector;
+            }
+        }
+        else
+        {
+            transform.position = targetScript.transform.position + randomVector;            
         }
     }
 
@@ -147,8 +303,8 @@ public class BossMonster : Monster, IDamageable
         CurrentHp -= damageValue;
     }
 
-    protected override void Die()
+    public Vector3 GetMoveDir()
     {
-
+        return moveDir;
     }
 }

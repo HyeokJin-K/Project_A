@@ -11,37 +11,38 @@ public enum SpriteDisableMode
 
 public static class SpriteRendererEx
 {
-    public static void DoDisable(this SpriteRenderer spriteRenderer, float delay, SpriteDisableMode mode)
+    public static void DoDisable(this SpriteRenderer spriteRenderer, SpriteDisableMode mode)
     {
+        Color spriteOriginColor = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a);
+
+        if(StaticCoroutine.instance == null)
+        {
+            return;
+        }
+
         if (mode == SpriteDisableMode.Normal)
         {
-            StaticCoroutine.instance?.StartStaticCoroutine(Normal(spriteRenderer, delay));
+            Normal(spriteRenderer);
         }
         else
         {
-            StaticCoroutine.instance?.StartStaticCoroutine(Lerp(spriteRenderer, delay));
+            StaticCoroutine.instance?.StartStaticCoroutine(Lerp(spriteRenderer));
         }
 
-        IEnumerator Normal(SpriteRenderer spriteRenderer, float delay)
-        {
-            yield return new WaitForSeconds(delay);
+        #region Local Method
 
+        void Normal(SpriteRenderer spriteRenderer)
+        {
             spriteRenderer.gameObject.SetActive(false);
         }
 
-        IEnumerator Lerp(SpriteRenderer spriteRenderer, float delay)
+        IEnumerator Lerp(SpriteRenderer spriteRenderer)
         {
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
-
             Color color1 = spriteRenderer.color;
 
             float lerpT = 0f;
 
-            float t = delay;
-
             Color color2 = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
-
-            yield return new WaitForSeconds(delay);
 
             while (lerpT <= 1f)
             {
@@ -52,7 +53,9 @@ public static class SpriteRendererEx
                 yield return null;
             }
 
-            spriteRenderer.gameObject.SetActive(false);
+            spriteRenderer.color = spriteOriginColor;
         }
+
+        #endregion
     }
 }

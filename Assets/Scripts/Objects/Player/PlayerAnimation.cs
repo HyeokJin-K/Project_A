@@ -61,18 +61,12 @@ public class PlayerAnimation : MonoBehaviour
 
         #endregion
 
-        playerScript.OnPlayerMove += SetMoveValue;
+        playerScript.OnPlayerMove += () => PlayerMoveDir = playerScript.MoveDir;
 
         playerScript.OnPlayerMove += () => playerAnimator.SetBool("IsMove", true);
 
         playerScript.OnPlayerMoveStop += () => playerAnimator.SetBool("IsMove", false);
     }
 
-    #endregion
-
-    public void SetMoveValue()  //  플레이어 애니메이션 조정에 필요한 값 초기화
-    {
-        PlayerMoveDir = playerScript.MoveDir;
-
-    }
+    #endregion    
 }

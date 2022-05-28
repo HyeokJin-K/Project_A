@@ -12,16 +12,6 @@ public class LeftJoyStick : JoyStick
 
     //------------------------------------------------------------------------------------------------
 
-    void ResetPosDirObjectPos()
-    {
-        playerMoveDirObject.transform.localPosition = Vector2.zero;
-    }
-
-    void ActiveMoveDirObjectPos()
-    {
-        playerMoveDirObject.transform.localPosition = lever.localPosition.normalized;
-    }
-
     #region 조이스틱 콜백
 
     protected override void BeginDragMethod()
@@ -40,4 +30,14 @@ public class LeftJoyStick : JoyStick
     }
 
     #endregion
+
+    void ResetPosDirObjectPos()
+    {
+        playerMoveDirObject.transform.localPosition = Vector2.zero;
+    }
+
+    void ActiveMoveDirObjectPos()
+    {
+        playerMoveDirObject.transform.localPosition = lever.localPosition.normalized;
+    }
 }
