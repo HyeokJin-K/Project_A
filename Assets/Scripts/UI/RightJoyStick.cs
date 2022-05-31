@@ -26,7 +26,7 @@ public class RightJoyStick : JoyStick
     {
         ActiveAttackDirObjectPos();
 
-        weapon = weapon == null ? playerAttackDirObject.GetComponentInChildren<IWeapon>() : weapon;
+        weapon = weapon ?? playerAttackDirObject.GetComponentInChildren<IWeapon>();
 
         weapon.SetWeaponInput();
     }

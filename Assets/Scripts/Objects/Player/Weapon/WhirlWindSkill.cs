@@ -15,6 +15,8 @@ public class WhirlWindSkill : MonoBehaviour, ISkill
 
     #region Private Field
 
+    HashSet<GameObject> attackedEnemyList = new HashSet<GameObject>();
+
     [SerializeField, ReadOnly]
     PlayerSkillData playerSkillData = new PlayerSkillData();
 
@@ -23,8 +25,6 @@ public class WhirlWindSkill : MonoBehaviour, ISkill
 
     [SerializeField]
     TrailRenderer skillTrailRenderer;
-
-    List<GameObject> attackedEnemyList = new List<GameObject>();
 
     bool isSkillReady = true;
 
@@ -39,10 +39,13 @@ public class WhirlWindSkill : MonoBehaviour, ISkill
     private void Awake()
     {
         #region Caching
+
         skillCollider = skillCollider == null ? GetComponent<BoxCollider2D>() : skillCollider;
+
         skillTrailRenderer = skillTrailRenderer == null ? GetComponentInChildren<TrailRenderer>() : skillTrailRenderer;
+
         #endregion                        
-    }    
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -50,11 +53,9 @@ public class WhirlWindSkill : MonoBehaviour, ISkill
         {
             if (collision.CompareTag("Monster") || collision.CompareTag("BossMonster"))
             {
-
                 collision.GetComponent<IDamageable>().TakeDamage(playerSkillData.SkillPower);
 
                 attackedEnemyList.Add(collision.gameObject);
-
             }
         }
     }

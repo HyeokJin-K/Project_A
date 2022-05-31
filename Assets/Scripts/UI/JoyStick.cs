@@ -37,7 +37,7 @@ public abstract class JoyStick : MonoBehaviour, IDragHandler, IPointerDownHandle
         currentLeverImage = lever.GetComponent<Image>();
 
         sizeX = gameObject.GetComponent<RectTransform>().rect.width;
-                
+
         #endregion
     }
 

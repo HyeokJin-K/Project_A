@@ -63,7 +63,10 @@ public abstract class Monster : MonoBehaviour
         {
             playerIDamageable = collision.gameObject.GetComponent<IDamageable>();
 
-            StartCoroutine(NormalAttack());
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(NormalAttack());
+            }
         }
     }
 
@@ -80,11 +83,6 @@ public abstract class Monster : MonoBehaviour
         isNormalAttackReady = true;
 
         currentHp = MaxHp;
-    }
-
-    private void OnDisable()
-    {
-        StopAllCoroutines();
     }
 
     #endregion

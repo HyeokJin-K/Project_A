@@ -7,7 +7,7 @@ public class StaticCoroutine : MonoBehaviour
 {
     #region Public Field
 
-    public static StaticCoroutine instance;
+    public static StaticCoroutine Instance;
 
     #endregion    
 
@@ -21,13 +21,13 @@ public class StaticCoroutine : MonoBehaviour
 
     void Awake()
     {
-        if (instance)
+        if (Instance)
         {            
             Destroy(gameObject);
         }
         else
         {
-            instance = this;
+            Instance = this;
         }
     }
 

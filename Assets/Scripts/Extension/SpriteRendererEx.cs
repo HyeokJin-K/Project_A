@@ -13,9 +13,11 @@ public static class SpriteRendererEx
 {
     public static void DoDisable(this SpriteRenderer spriteRenderer, SpriteDisableMode mode)
     {
-        Color spriteOriginColor = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a);
+        var color = spriteRenderer.color;
+        
+        Color spriteOriginColor = new Color(color.r, color.g, color.b, color.a);
 
-        if(StaticCoroutine.instance == null)
+        if(!StaticCoroutine.Instance)
         {
             return;
         }
@@ -26,7 +28,7 @@ public static class SpriteRendererEx
         }
         else
         {
-            StaticCoroutine.instance?.StartStaticCoroutine(Lerp(spriteRenderer));
+            StaticCoroutine.Instance.StartStaticCoroutine(Lerp(spriteRenderer));
         }
 
         #region Local Method

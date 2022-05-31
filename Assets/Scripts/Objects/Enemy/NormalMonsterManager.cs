@@ -15,6 +15,9 @@ public class NormalMonsterManager : ObjectPool
 
     [Tooltip("자동 스폰 딜레이(초) 설정")]
     public float autoSpawnDelay = 1.0f;
+    
+    [ReadOnly]
+    public int enableCount;
 
     #endregion
 
@@ -65,12 +68,15 @@ public class NormalMonsterManager : ObjectPool
 
     private void FixedUpdate()
     {
+        enableCount = 0;
+        
         for (int i = 0; i < objectList.Count; i++)
         {
-            if (objectList[i].activeInHierarchy)
-            {
-                monsterMoveInterfaces[i].Move();
-            }
+            if (!objectList[i].activeInHierarchy) continue;
+            
+            monsterMoveInterfaces[i].Move();
+
+            enableCount++;
         }
     }
 
@@ -78,20 +84,19 @@ public class NormalMonsterManager : ObjectPool
 
     public void Spawn()     //  몬스터 수동 스폰
     {
-        bool isSpawned = false;
+        var isSpawned = false;
 
         for (int i = 0; i < objectList.Count; i++)
         {
-            if (!objectList[i].activeInHierarchy)
-            {
-                objectList[i].SetActive(true);
+            if (objectList[i].activeInHierarchy) continue;
+            
+            objectList[i].SetActive(true);
 
-                objectList[i].transform.position = SetRandomPosOutCamera();
+            objectList[i].transform.position = SetRandomPosOutCamera();
 
-                isSpawned = true;
+            isSpawned = true;
 
-                break;
-            }
+            break;
         }
 
         if (!isSpawned)
@@ -111,34 +116,22 @@ public class NormalMonsterManager : ObjectPool
         {
             int spawnPointType = Random.Range(0, 4); // 0:RightSide, 1:LeftSide, 2:TopSide, 3:BottomSide
 
-            Vector3 randomPos = new Vector3();
-
-            switch (spawnPointType)
+            var randomPos = spawnPointType switch
             {
-                case 0:
-
-                    randomPos = mainCamera.ViewportToWorldPoint(new Vector3(1.1f, Random.Range(-0.1f, 1.1f), mainCamera.nearClipPlane));
-
-                    break;
-
-                case 1:
-
-                    randomPos = mainCamera.ViewportToWorldPoint(new Vector3(-0.1f, Random.Range(-0.1f, 1.1f), mainCamera.nearClipPlane));
-
-                    break;
-
-                case 2:
-
-                    randomPos = mainCamera.ViewportToWorldPoint(new Vector3(Random.Range(-0.1f, 1.1f), 1.1f, mainCamera.nearClipPlane));
-
-                    break;
-
-                case 3:
-
-                    randomPos = mainCamera.ViewportToWorldPoint(new Vector3(Random.Range(-0.1f, 1.1f), -0.1f, mainCamera.nearClipPlane));
-
-                    break;
-            }
+                0 => mainCamera.ViewportToWorldPoint(new Vector3(1.1f, Random.Range(-0.1f, 1.1f),
+                    mainCamera.nearClipPlane)),
+                
+                1 => mainCamera.ViewportToWorldPoint(new Vector3(-0.1f, Random.Range(-0.1f, 1.1f),
+                    mainCamera.nearClipPlane)),
+                
+                2 => mainCamera.ViewportToWorldPoint(new Vector3(Random.Range(-0.1f, 1.1f), 1.1f,
+                    mainCamera.nearClipPlane)),
+                
+                3 => mainCamera.ViewportToWorldPoint(new Vector3(Random.Range(-0.1f, 1.1f), -0.1f,
+                    mainCamera.nearClipPlane)),
+                
+                _ => new Vector3()
+            };
 
             return randomPos;
         }

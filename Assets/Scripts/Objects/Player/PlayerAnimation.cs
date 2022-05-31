@@ -32,6 +32,8 @@ public class PlayerAnimation : MonoBehaviour
 
     #region Private Field
 
+    static readonly int IsMove = Animator.StringToHash("IsMove");
+    
     [SerializeField]
     Player playerScript;
 
@@ -42,7 +44,7 @@ public class PlayerAnimation : MonoBehaviour
     SpriteRenderer playerSpriteRenderer;
 
     Vector2 playerMoveDir;
-
+    
     #endregion
 
     //------------------------------------------------------------------------------------------------
@@ -63,9 +65,9 @@ public class PlayerAnimation : MonoBehaviour
 
         playerScript.OnPlayerMove += () => PlayerMoveDir = playerScript.MoveDir;
 
-        playerScript.OnPlayerMove += () => playerAnimator.SetBool("IsMove", true);
+        playerScript.OnPlayerMove += () => playerAnimator.SetBool(IsMove, true);
 
-        playerScript.OnPlayerMoveStop += () => playerAnimator.SetBool("IsMove", false);
+        playerScript.OnPlayerMoveStop += () => playerAnimator.SetBool(IsMove, false);
     }
 
     #endregion    

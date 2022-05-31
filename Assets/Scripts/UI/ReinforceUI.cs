@@ -19,11 +19,7 @@ public class ReinforceUI : MonoBehaviour
 
     //------------------------------------------------------------------------------------------------
 
-    #region Unity LifeCycle    
-
-    private void Awake()
-    {        
-    }
+    #region Unity LifeCycle
 
     #endregion
 

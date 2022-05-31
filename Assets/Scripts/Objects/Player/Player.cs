@@ -32,29 +32,14 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
 
     public Rigidbody2D playerRigidbody;
 
-    public float CurrentHP
+    public float CurrentHp
     {
-        get
+        get => currentHp;
+        private set
         {
-            return currentHP;
-        }
-        set
-        {
-            currentHP = value;
+            currentHp = value;
 
-            hpUI.fillAmount = currentHP / maxHP;
-        }
-    }
-
-    public float DefensePower
-    {
-        get
-        {
-            return defensePower;
-        }
-        set
-        {
-            defensePower = value;
+            hpUI.fillAmount = currentHp / maxHp;
         }
     }
 
@@ -117,14 +102,11 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
     Image hpUI;
 
     [SerializeField]
-    float maxHP;
+    float maxHp;
 
     [SerializeField, ReadOnly]
-    float currentHP;
-
-    [SerializeField]
-    float defensePower;
-
+    float currentHp;
+    
     [SerializeField]
     float moveSpeed;
 
@@ -154,7 +136,7 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
 
         #endregion
 
-        currentHP = maxHP;
+        currentHp = maxHp;
 
         List<Dictionary<string, object>> dataList = CSVReader.Read("DataTable/PlayerLevelDataTable");
 
@@ -166,7 +148,7 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
 
     private void FixedUpdate()
     {
-        Move();        
+        Move();
     }
 
     #endregion
@@ -185,7 +167,7 @@ public class Player : MonoBehaviour, IDamageable, IMoveable
 
     public void TakeDamage(float damageValue)
     {
-        CurrentHP -= damageValue;
+        CurrentHp -= damageValue;
     }
 
     public Vector3 GetMoveDir()

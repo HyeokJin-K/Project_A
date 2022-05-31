@@ -29,11 +29,11 @@ public class PlayerSkillManager : MonoBehaviour
 
     private void Awake()
     {
-        skillDataTable = CSVReader.Read("DataTable/PlayerSkillDataTable");        
+        skillDataTable = CSVReader.Read("DataTable/PlayerSkillDataTable");
 
-        for (int i = 0; i < skillDataTable.Count; i++)
+        foreach (var skillData in skillDataTable)
         {
-            AddNewPlayerSkill(skillDataTable[i]["Name"].ToString());
+            AddNewPlayerSkill(skillData["Name"].ToString());
         }
     }
 
@@ -43,14 +43,13 @@ public class PlayerSkillManager : MonoBehaviour
     {        
         tt += Time.deltaTime;
 
-        if(tt >= 1f)
-        {
-            tt = 0f;
+        if (!(tt >= 1f)) return;
+        
+        tt = 0f;
 
-            foreach(var skill in currentPlayerSkillList)
-            {
-                skill.GetComponent<ISkill>().ActivateSkill();
-            }
+        foreach(var skill in currentPlayerSkillList)
+        {
+            skill.GetComponent<ISkill>().ActivateSkill();
         }
     }
 

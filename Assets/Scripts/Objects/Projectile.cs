@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = System.Object;
 
 public class Projectile : MonoBehaviour, IProjectile
 {
@@ -35,7 +36,7 @@ public class Projectile : MonoBehaviour, IProjectile
     float lifeTime;
 
     #endregion
-
+    
     //------------------------------------------------------------------------------------------------
 
     #region Unity LifeCycle
@@ -44,9 +45,9 @@ public class Projectile : MonoBehaviour, IProjectile
     {
         #region Caching
 
-        projectileRigidbody = projectileRigidbody == null ? GetComponent<Rigidbody2D>() : projectileRigidbody;
+        projectileRigidbody = projectileRigidbody ? projectileRigidbody : GetComponent<Rigidbody2D>();
 
-        projectileSpriteRenderer = projectileSpriteRenderer == null ? GetComponentInChildren<SpriteRenderer>() : projectileSpriteRenderer;
+        projectileSpriteRenderer = projectileSpriteRenderer ? projectileSpriteRenderer : GetComponentInChildren<SpriteRenderer>();
 
         #endregion
 
@@ -83,8 +84,8 @@ public class Projectile : MonoBehaviour, IProjectile
     IEnumerator ProjectileLifeEnd()     //  탄막의 라이프 타임이 0이 되면 탄막 오브젝트 비활성화
     {
         yield return new WaitForSeconds(lifeTime);
-
-        projectileSpriteRenderer?.DoDisable(SpriteDisableMode.Lerp);        
+        
+        projectileSpriteRenderer?.DoDisable(SpriteDisableMode.Lerp);
 
         yield return new WaitUntil(() => projectileSpriteRenderer.color.a <= 0f);
 
@@ -115,7 +116,7 @@ public class Projectile : MonoBehaviour, IProjectile
     }
 
     public IEnumerator SetDurationMoveToTarget(Vector3 targetPoint, float pathfindingTime)
-    {                                                                               
+    {                                                                              
         float t = 0;
 
         while (t <= pathfindingTime)

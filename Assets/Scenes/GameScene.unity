@@ -315,6 +315,7 @@ MonoBehaviour:
   monsterPrefab: {fileID: 75901415985387001, guid: f5932bbc4704a644986200c57527b15e, type: 3}
   isAutoSpawn: 1
   autoSpawnDelay: 2
+  enableCount: 0
 --- !u!4 &58899062
 Transform:
   m_ObjectHideFlags: 0
@@ -449,9 +450,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2781f1031d6778d4a984a3d4e11257ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkillList: []
+  playerSkillList:
+  - {fileID: 969056162577684993, guid: 8d546d5b18b21b44f9ee4a6c24448576, type: 3}
   currentPlayerSkillList: []
-  playerSkillPoolObject: {fileID: 239827013621943511}
+  playerSkillSlotObject: {fileID: 239827013621943511}
 --- !u!4 &156293643
 Transform:
   m_ObjectHideFlags: 0
@@ -860,6 +862,7 @@ MonoBehaviour:
   monsterPrefab: {fileID: 75901415985387001, guid: e4d94ba9d09fe8944b88d55c55cf6125, type: 3}
   isAutoSpawn: 1
   autoSpawnDelay: 1.5
+  enableCount: 0
 --- !u!4 &428135471
 Transform:
   m_ObjectHideFlags: 0
@@ -3464,6 +3467,8 @@ MonoBehaviour:
   Red: 0
   Green: 0
   Blue: 0
+  manager1: {fileID: 58899061}
+  manager2: {fileID: 428135470}
 --- !u!1 &1745524705
 GameObject:
   m_ObjectHideFlags: 0
@@ -4400,6 +4405,10 @@ PrefabInstance:
     - target: {fileID: 239827013473880540, guid: 4884f4c8d63a3f24481089586203e554, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239827013473880541, guid: 4884f4c8d63a3f24481089586203e554, type: 3}
+      propertyPath: maxHp
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 239827013473880541, guid: 4884f4c8d63a3f24481089586203e554, type: 3}
       propertyPath: moveSpeed

@@ -9,6 +9,10 @@ public class FPS : MonoBehaviour
     [Range(0, 1)]
     public float Red, Green, Blue;
 
+    public NormalMonsterManager manager1;
+
+    public NormalMonsterManager manager2;
+
     float deltaTime = 0.0f;
     void Start()
     {
@@ -33,7 +37,7 @@ public class FPS : MonoBehaviour
         style.normal.textColor = new Color(Red, Green, Blue, 1.0f);
         float msec = deltaTime * 1000.0f;
         float fps = 1.0f / deltaTime;
-        string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+        string text = string.Format("{0:0.0} ms ({1:0.} fps) {2} 현재 몬스터 수", msec, fps, manager1.enableCount + manager2.enableCount);
         GUI.Label(rect, text, style);
     }
 }

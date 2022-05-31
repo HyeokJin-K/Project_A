@@ -16,14 +16,13 @@ public class EarthQuakeSkill : MonoBehaviour, ISkill
 
     #region Private Field
 
+    HashSet<GameObject> attackedEnemyList = new HashSet<GameObject>();
+
     [SerializeField, ReadOnly]
     PlayerSkillData skillData;
 
     [SerializeField]
-    CircleCollider2D[] skillColliders;
-
-    [SerializeField, ReadOnly]
-    List<GameObject> attackedEnemyList = new List<GameObject>();
+    CircleCollider2D[] skillColliders;    
 
     [SerializeField, ReadOnly]
     bool isSkillReady = true;
