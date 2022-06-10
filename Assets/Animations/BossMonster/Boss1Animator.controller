@@ -17,7 +17,7 @@ AnimatorStateMachine:
     m_Position: {x: 270, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3645905988852976462}
-    m_Position: {x: 310, y: -50, z: 0}
+    m_Position: {x: 310, y: 30, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -4868658528482821370}
@@ -60,7 +60,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: MissileAttackTrigger
+    m_ConditionEvent: MissileAttack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3645905988852976462}
@@ -116,7 +116,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: MissileAttackTrigger
+  - m_Name: MissileAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
